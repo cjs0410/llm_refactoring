@@ -1,0 +1,13 @@
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-19 00:41:15  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Time
+ -v 4f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/Time/modified_classes/4.src
+ -s 1004
+Created test suite archive: Time-4f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/Time-4f-reg-test/Time/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-19 00:41:33  ######

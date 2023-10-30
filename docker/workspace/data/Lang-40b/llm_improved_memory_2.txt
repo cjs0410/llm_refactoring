@@ -1,0 +1,18 @@
+public static boolean containsIgnoreCase(String str, String searchStr) {
+    if (str == null || searchStr == null) {
+        return false;
+    }
+    int len = searchStr.length();
+    int strLen = str.length();
+    int max = strLen - len;
+    int i = 0;
+    
+    while (i <= max) {
+        if (str.regionMatches(true, i, searchStr, 0, len)) {
+            return true;
+        }
+        i++;
+    }
+    
+    return false;
+}

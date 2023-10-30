@@ -1,0 +1,14 @@
+protected void setName(String name) {
+    if (shouldApplyWorkaround(name)) {
+        name = applyWorkaround(name);
+    }
+    this.name = name;
+}
+
+private boolean shouldApplyWorkaround(String name) {
+    return name != null && getPlatform() == PLATFORM_FAT && !name.contains("/");
+}
+
+private String applyWorkaround(String name) {
+    return name.replace('\\', '/');
+}

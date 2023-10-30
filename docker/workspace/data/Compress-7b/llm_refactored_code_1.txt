@@ -1,0 +1,15 @@
+public static String parseName(byte[] buffer, final int offset, final int length) {
+    StringBuilder result = new StringBuilder(length);
+    int end = offset + length;
+
+    for (int i = offset; i < end; ++i) {
+        byte b = buffer[i];
+        if (b == 0) {
+            break;
+        }
+        int unsignedByte = b & 0xFF;
+        result.append((char) unsignedByte);
+    }
+
+    return result.toString();
+}

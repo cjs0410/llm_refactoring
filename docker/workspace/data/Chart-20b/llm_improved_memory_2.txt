@@ -1,0 +1,15 @@
+    /**
+     * Creates a new instance of ValueMarker.
+     *
+     * @param value the marker value.
+     * @param paint the paint.
+     * @param stroke the stroke.
+     * @param outlinePaint the outline paint.
+     * @param outlineStroke the outline stroke.
+     * @param alpha the alpha transparency.
+     */
+    public ValueMarker(double value, Paint paint, Stroke stroke,
+                       Paint outlinePaint, Stroke outlineStroke, float alpha) {
+        super(paint, stroke, outlinePaint, outlineStroke, alpha);
+        this.value = value;
+    }

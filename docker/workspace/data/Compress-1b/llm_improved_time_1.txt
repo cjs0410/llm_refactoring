@@ -1,0 +1,11 @@
+public void close() throws IOException {
+    if (!this.closed) {
+        finishAndClose();
+    }
+}
+
+private void finishAndClose() throws IOException {
+    this.finish();
+    super.close();
+    this.closed = true;
+}

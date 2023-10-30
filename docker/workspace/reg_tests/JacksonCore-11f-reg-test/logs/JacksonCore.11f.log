@@ -1,0 +1,13 @@
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 11:58:53  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p JacksonCore
+ -v 11f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/JacksonCore/modified_classes/11.src
+ -s 1011
+Created test suite archive: JacksonCore-11f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/JacksonCore-11f-reg-test/JacksonCore/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 12:00:47  ######

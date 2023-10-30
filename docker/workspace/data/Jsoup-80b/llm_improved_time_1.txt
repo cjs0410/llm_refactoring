@@ -1,0 +1,36 @@
+void insert(Token.Comment commentToken) {
+    Comment comment = new Comment(commentToken.getData());
+    Node insert = comment;
+    if (commentToken.bogus && isXmlDeclaration(comment.getData())) {
+        String data = comment.getData();
+        String declarationContent = extractDeclarationContent(data);
+
+        if (!declarationContent.trim().isEmpty()) {
+            String declarationTag = parseDeclarationTag(declarationContent);
+
+            if (declarationTag != null) {
+                insert = createXmlDeclaration(declarationTag, data.charAt(0) == '!');
+            }
+        }
+    }
+    insertNode(insert);
+}
+
+private boolean isXmlDeclaration(String data) {
+    return data.length() > 1 && (data.startsWith("!") || data.startsWith("?"));
+}
+
+private String extractDeclarationContent(String data) {
+    return data.substring(1, data.length() - 1);
+}
+
+private String parseDeclarationTag(String declarationContent) {
+    return Jsoup.parseBodyFragment(declarationContent).body().child(0).tagName();
+}
+
+private XmlDeclaration createXmlDeclaration(String declarationTag, boolean isBogus) {
+    Element el = Jsoup.parseBodyFragment(declarationContent).body().child(0);
+    XmlDeclaration declaration = new XmlDeclaration(settings.normalizeTag(declarationTag), isBogus);
+    declaration.attributes().addAll(el.attributes());
+    return declaration;
+}

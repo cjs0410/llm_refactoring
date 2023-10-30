@@ -1,0 +1,28 @@
+public boolean hasClass(String className) {
+    final String classAttr = attributes.getIgnoreCase("class");
+    final int len = classAttr.length();
+    final int wantLen = className.length();
+
+    if (len == 0 || len < wantLen) {
+        return false;
+    }
+
+    // if both lengths are equal, only need to compare the className with the attribute
+    if (len == wantLen) {
+        return className.equalsIgnoreCase(classAttr);
+    }
+
+    // otherwise, scan for whitespace and compare regions (with no string or ArrayList allocations)
+    int start = 0;
+    int end = classAttr.indexOf(' ');
+    while (end != -1) {
+        if (classAttr.regionMatches(true, start, className, 0, wantLen)) {
+            return true;
+        }
+        start = end + 1;
+        end = classAttr.indexOf(' ', start);
+    }
+
+    // check the last entry
+    return classAttr.regionMatches(true, start, className, 0, wantLen) || start == len;
+}

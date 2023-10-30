@@ -1,0 +1,11 @@
+boolean matchesLetter() {
+    if (isEmpty()) {
+        return false;
+    }
+    char c = input[pos];
+
+    boolean isAsciiLetter = (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+    boolean isNonAsciiLetter = Character.isLetter(c);
+
+    return isAsciiLetter || isNonAsciiLetter;
+}

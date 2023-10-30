@@ -1,0 +1,17 @@
+private void copyAttributes(org.jsoup.nodes.Node source, Element el) {
+    for (Attribute attribute : source.attributes()) {
+        String key = removeInvalidXmlCharacters(attribute.getKey());
+        if (isValidXmlAttributeName(key)) {
+            String value = attribute.getValue();
+            el.setAttribute(key, value);
+        }
+    }
+}
+
+private String removeInvalidXmlCharacters(String key) {
+    return key.replaceAll("[^-a-zA-Z0-9_:.]", "");
+}
+
+private boolean isValidXmlAttributeName(String key) {
+    return key.matches("[a-zA-Z_:]{1}[-a-zA-Z0-9_:.]*");
+}

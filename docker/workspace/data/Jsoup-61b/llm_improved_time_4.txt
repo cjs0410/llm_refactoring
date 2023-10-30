@@ -1,0 +1,27 @@
+public boolean hasClass(String className) {
+    final String classAttr = attributes.getIgnoreCase("class");
+    final int len = classAttr != null ? classAttr.length() : 0;
+    final int wantLen = className.length();
+
+    if (len == 0 || len < wantLen) {
+        return false;
+    }
+
+    int start = 0;
+    int end;
+
+    while (start < len) {
+        int searchPos = classAttr.indexOf(className, start);
+        if (searchPos == -1) {
+            return false;
+        }
+        end = searchPos + wantLen;
+        if ((searchPos == 0 || classAttr.charAt(searchPos - 1) == ' ') &&
+                (end == len || classAttr.charAt(end) == ' ')) {
+            return true;
+        }
+        start = end;
+    }
+
+    return false;
+}

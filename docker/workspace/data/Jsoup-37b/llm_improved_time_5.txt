@@ -1,0 +1,3 @@
+public String html() {
+    return getOutputSettings().prettyPrint() ? html().trim() : html();
+}

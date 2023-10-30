@@ -1,0 +1,29 @@
+public static boolean containsAny(CharSequence cs, char[] searchChars) {
+    if (isEmpty(cs) || ArrayUtils.isEmpty(searchChars)) {
+        return false;
+    }
+    int csLength = cs.length();
+    int searchLength = searchChars.length;
+    int csLastIndex = csLength - 1;
+    int searchLastIndex = searchLength - 1;
+    int i = 0;
+    while (i < csLength) {
+        char ch = cs.charAt(i);
+        int j = 0;
+        while (j < searchLength) {
+            if (searchChars[j] == ch) {
+                if (i < csLastIndex && j < searchLastIndex && Character.isHighSurrogate(ch)) {
+                    if (searchChars[j + 1] == cs.charAt(i + 1)) {
+                        return true;
+                    }
+                    i++;
+                } else {
+                    return true;
+                }
+            }
+            j++;
+        }
+        i++;
+    }
+    return false;
+}

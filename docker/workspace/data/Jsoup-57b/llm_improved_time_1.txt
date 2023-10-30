@@ -1,0 +1,13 @@
+public void removeIgnoreCase(String key) {
+    Validate.notEmpty(key);
+    if (attributes == null) {
+        return;
+    }
+    Iterator<Map.Entry<String, String>> iterator = attributes.entrySet().iterator();
+    while (iterator.hasNext()) {
+        Map.Entry<String, String> entry = iterator.next();
+        if (entry.getKey().equalsIgnoreCase(key)) {
+            iterator.remove();
+        }
+    }
+}

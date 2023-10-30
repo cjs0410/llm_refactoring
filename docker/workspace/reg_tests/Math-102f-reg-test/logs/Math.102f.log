@@ -1,0 +1,13 @@
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 23:26:52  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Math
+ -v 102f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/Math/modified_classes/102.src
+ -s 1102
+Created test suite archive: Math-102f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/Math-102f-reg-test/Math/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 23:27:28  ######

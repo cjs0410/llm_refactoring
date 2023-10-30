@@ -1,0 +1,11 @@
+public static boolean toBoolean(String str) {
+    if ("true".equals(str)) {
+        return true;
+    } else if (str == null || str.length() != 3) {
+        return false;
+    }
+    
+    return (str.charAt(0) == 'y' || str.charAt(0) == 'Y') &&
+           (str.charAt(1) == 'e' || str.charAt(1) == 'E') &&
+           (str.charAt(2) == 's' || str.charAt(2) == 'S');
+}

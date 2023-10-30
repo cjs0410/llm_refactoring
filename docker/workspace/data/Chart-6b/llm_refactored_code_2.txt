@@ -1,0 +1,22 @@
+public boolean equals(Object obj) {
+    if (this == obj) {
+        return true;
+    }
+    if (!(obj instanceof ShapeList)) {
+        return false;
+    }
+    ShapeList that = (ShapeList) obj;
+    int listSize = size();
+    for (int i = 0; i < listSize; i++) {
+        Shape thisShape = getShape(i);
+        Shape thatShape = that.getShape(i);
+        if (!ShapeUtilities.equal(thisShape, thatShape)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+private Shape getShape(int index) {
+    return (Shape) get(index);
+}

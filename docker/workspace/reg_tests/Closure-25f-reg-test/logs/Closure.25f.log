@@ -1,0 +1,13 @@
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 04:10:58  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Closure
+ -v 25f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/Closure/modified_classes/25.src
+ -s 1025
+Created test suite archive: Closure-25f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/Closure-25f-reg-test/Closure/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 04:12:39  ######

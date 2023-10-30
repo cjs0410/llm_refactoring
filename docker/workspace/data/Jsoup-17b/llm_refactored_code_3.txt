@@ -1,0 +1,43 @@
+enum TreeBuilderState {
+    // previous enum states here...
+
+    NULL_STRING(String.valueOf('\u0000')) {
+        @Override
+        boolean process(Token t, TreeBuilder tb) {
+            // process logic here
+        }
+    };
+
+    private final String nullString;
+
+    private TreeBuilderState(String nullString) {
+        this.nullString = nullString;
+    }
+
+    abstract boolean process(Token t, TreeBuilder tb);
+}
+
+private static void methodName() {
+    // previous method logic here...
+
+    enum TreeBuilderState {
+        // previous enum states here...
+
+        NULL_STRING(String.valueOf('\u0000')) {
+            @Override
+            boolean process(Token t, TreeBuilder tb) {
+                // process logic here
+            }
+        };
+
+        private final String nullString;
+
+        private TreeBuilderState(String nullString) {
+            this.nullString = nullString;
+        }
+
+        abstract boolean process(Token t, TreeBuilder tb);
+    }
+
+    // remaining method logic here...
+}

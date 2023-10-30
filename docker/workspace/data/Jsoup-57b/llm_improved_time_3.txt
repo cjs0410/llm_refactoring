@@ -1,0 +1,7 @@
+public void removeIgnoreCase(String key) {
+    Validate.notEmpty(key);
+    if (attributes == null)
+        return;
+    
+    attributes.entrySet().removeIf(entry -> entry.getKey().equalsIgnoreCase(key));
+}

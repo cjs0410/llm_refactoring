@@ -1,0 +1,13 @@
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 18:57:19  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p JxPath
+ -v 19f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/JxPath/modified_classes/19.src
+ -s 1019
+Created test suite archive: JxPath-19f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/JxPath-19f-reg-test/JxPath/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 18:59:08  ######

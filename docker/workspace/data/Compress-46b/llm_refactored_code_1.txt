@@ -1,0 +1,10 @@
+    private static ZipLong unixTimeToZipLong(long l) {
+        final long MIN_VALUE = Integer.MIN_VALUE;
+        final long MAX_VALUE = Integer.MAX_VALUE;
+        
+        if (l < MIN_VALUE || l > MAX_VALUE) {
+            throw new IllegalArgumentException("X5455 timestamps must fit in a signed 32 bit integer: " + l);
+        }
+        
+        return new ZipLong(l);
+    }

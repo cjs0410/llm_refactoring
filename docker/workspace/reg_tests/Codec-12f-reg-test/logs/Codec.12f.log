@@ -1,0 +1,26 @@
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-08-24 20:44:29  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Codec
+ -v 12f
+ -n 1
+ -b 10
+ -c /defects4j/framework/projects/Codec/modified_classes/12.src
+ -s 1012
+Created test suite archive: Codec-12f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/Codec-12f-reg-test/Codec/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-08-24 20:44:43  ######
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 09:18:46  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Codec
+ -v 12f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/Codec/modified_classes/12.src
+ -s 1012
+Created test suite archive: Codec-12f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/Codec-12f-reg-test/Codec/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 09:20:28  ######

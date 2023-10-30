@@ -1,0 +1,33 @@
+/**
+ * Closes tags in the stack until the specified end tag is found.
+ *
+ * @param endTag tag to close
+ */
+private void popStackToClose(Token.EndTag endTag) {
+    String elName = endTag.normalName();
+    Element firstFound = null;
+
+    int stackSize = stack.size();
+
+    for (int pos = stackSize - 1; pos >= 0; pos--) {
+        Element next = stack.get(pos);
+
+        if (next.nodeName().equals(elName)) {
+            firstFound = next;
+            break;
+        }
+    }
+
+    if (firstFound == null) {
+        return;
+    }
+
+    for (int pos = stackSize - 1; pos >= 0; pos--) {
+        Element next = stack.remove(pos);
+        last = next;
+
+        if (next == firstFound) {
+            break;
+        }
+    }
+}

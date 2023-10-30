@@ -1,0 +1,12 @@
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 12:36:30  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p JacksonDatabind
+ -v 2f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/JacksonDatabind/modified_classes/2.src
+ -s 1002
+Test generator (evosuite) did not generate any tests!
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 12:38:11  ######

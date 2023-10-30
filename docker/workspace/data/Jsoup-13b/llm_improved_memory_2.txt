@@ -1,0 +1,10 @@
+public boolean hasAttr(String attributeKey) {
+    Validate.notNull(attributeKey);
+
+    if (attributeKey.toLowerCase().startsWith("abs:") && attributeKey.length() > 4) {
+        String key = attributeKey.substring(4);
+        return !absUrl(key).isEmpty();
+    }
+    
+    return attributes.hasKey(attributeKey);
+}

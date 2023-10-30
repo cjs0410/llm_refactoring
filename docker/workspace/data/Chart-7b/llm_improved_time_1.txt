@@ -1,0 +1,88 @@
+private void updateBounds(TimePeriod period, int index) {
+    long start = period.getStart().getTime();
+    long end = period.getEnd().getTime();
+    long middle = start + ((end - start) / 2);
+
+    updateMinStart(start, index);
+    updateMaxStart(start, index);
+    updateMinMiddle(middle, index);
+    updateMaxMiddle(middle, index);
+    updateMinEnd(end, index);
+    updateMaxEnd(end, index);
+}
+
+private void updateMinStart(long start, int index) {
+    if (this.minStartIndex >= 0) {
+        long minStart = getDataItem(this.minStartIndex).getPeriod().getStart().getTime();
+        if (start < minStart) {
+            this.minStartIndex = index;
+        }
+    } else {
+        this.minStartIndex = index;
+    }
+}
+
+private void updateMaxStart(long start, int index) {
+    if (this.maxStartIndex >= 0) {
+        long maxStart = getDataItem(this.maxStartIndex).getPeriod().getStart().getTime();
+        if (start > maxStart) {
+            this.maxStartIndex = index;
+        }
+    } else {
+        this.maxStartIndex = index;
+    }
+}
+
+private void updateMinMiddle(long middle, int index) {
+    if (this.minMiddleIndex >= 0) {
+        TimePeriodItem minMiddleItem = getDataItem(this.minMiddleIndex);
+        TimePeriod minMiddlePeriod = minMiddleItem.getPeriod();
+
+        long s = minMiddlePeriod.getStart().getTime();
+        long e = minMiddlePeriod.getEnd().getTime();
+        long minMiddle = s + (e - s) / 2;
+        if (middle < minMiddle) {
+            this.minMiddleIndex = index;
+        }
+    } else {
+        this.minMiddleIndex = index;
+    }
+}
+
+private void updateMaxMiddle(long middle, int index) {
+    if (this.maxMiddleIndex >= 0) {
+        TimePeriodItem maxMiddleItem = getDataItem(this.maxMiddleIndex);
+        TimePeriod maxMiddlePeriod = maxMiddleItem.getPeriod();
+
+        long s = maxMiddlePeriod.getStart().getTime();
+        long e = maxMiddlePeriod.getEnd().getTime();
+        long maxMiddle = s + (e - s) / 2;
+        if (middle > maxMiddle) {
+            this.maxMiddleIndex = index;
+        }
+    } else {
+        this.maxMiddleIndex = index;
+    }
+}
+
+private void updateMinEnd(long end, int index) {
+    if (this.minEndIndex >= 0) {
+        long minEnd = getDataItem(this.minEndIndex).getPeriod().getEnd().getTime();
+        if (end < minEnd) {
+            this.minEndIndex = index;
+        }
+    } else {
+        this.minEndIndex = index;
+    }
+}
+
+private void updateMaxEnd(long end, int index) {
+    if (this.maxEndIndex >= 0) {
+        long maxEnd = getDataItem(this.maxEndIndex).getPeriod().getEnd().getTime();
+        if (end > maxEnd) {
+            this.maxEndIndex = index;
+        }
+    } else {
+        this.maxEndIndex = index;
+    }
+}

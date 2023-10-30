@@ -1,0 +1,22 @@
+    protected void setName(String name) {
+        if (shouldFixBackslash(name)) {
+            name = fixBackslash(name);
+        }
+        this.name = name;
+    }
+
+    private boolean shouldFixBackslash(String name) {
+        return name != null && getPlatform() == PLATFORM_FAT && !name.contains("/");
+    }
+
+    private String fixBackslash(String name) {
+        StringBuilder sb = new StringBuilder(name.length());
+        for (char c : name.toCharArray()) {
+            if (c == '\\') {
+                sb.append('/');
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }

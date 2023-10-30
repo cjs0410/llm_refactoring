@@ -1,0 +1,18 @@
+public String generateToolTipFragment(String toolTipText) {
+    StringBuilder escapedText = new StringBuilder();
+    for (int i = 0; i < toolTipText.length(); i++) {
+        char c = toolTipText.charAt(i);
+        if (c == '<') {
+            escapedText.append("&lt;");
+        } else if (c == '>') {
+            escapedText.append("&gt;");
+        } else if (c == '&') {
+            escapedText.append("&amp;");
+        } else if (c == '"') {
+            escapedText.append("&quot;");
+        } else {
+            escapedText.append(c);
+        }
+    }
+    return " title=\"" + escapedText.toString() + "\" alt=\"\"";
+}

@@ -1,0 +1,7 @@
+public class MyClass {
+    // ...
+    public void myMethod() {
+        CSVFormat.EXCEL = CSVFormat.DEFAULT.withIgnoreEmptyLines(false).withAllowMissingColumnNames(true);
+    }
+    // ...
+}

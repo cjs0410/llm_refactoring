@@ -1,0 +1,7 @@
+boolean matchesLetter() {
+    if (isEmpty()) {
+        return false;
+    }
+    char c = input[pos];
+    return Character.isLetter(c) || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+}

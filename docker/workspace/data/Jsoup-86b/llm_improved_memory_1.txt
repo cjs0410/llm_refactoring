@@ -1,0 +1,11 @@
+public XmlDeclaration asXmlDeclaration() {
+    String data = getData();
+    if (data.length() > 2) {
+        String tag = data.substring(1, data.length() - 1);
+        XmlDeclaration decl = new XmlDeclaration(NodeUtils.parser(this).settings().normalizeTag(tag), data.startsWith("!"));
+        decl.attributes().addAll(attributes());
+        insertChildren(0, decl);
+        return decl;
+    }
+    return null;
+}

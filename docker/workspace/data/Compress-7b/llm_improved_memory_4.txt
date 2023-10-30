@@ -1,0 +1,16 @@
+public static String parseName(byte[] buffer, final int offset, final int length) {
+    int endIndex = offset + length;
+    StringBuilder result = new StringBuilder(length);
+
+    for (int i = offset; i < endIndex; ++i) {
+        byte b = buffer[i];
+        
+        if (b == 0) { // Trailing null
+            break;
+        }
+        
+        result.append(Character.toString((char) (b & 0xFF))); // Allow for sign-extension
+    }
+
+    return result.toString();
+}

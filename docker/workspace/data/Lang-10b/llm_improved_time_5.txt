@@ -1,0 +1,21 @@
+private static StringBuilder escapeRegex(StringBuilder regex, String value, boolean unquote) {
+    for (int i = 0; i < value.length(); ++i) {
+        char c = value.charAt(i);
+        if (c == '\'') {
+            if (unquote) {
+                if (++i == value.length()) {
+                    return regex;
+                }
+                c = value.charAt(i);
+            }
+        } else if (isSpecialCharacter(c)) {
+            regex.append('\\');
+        }
+        regex.append(c);
+    }
+    return regex;
+}
+
+private static boolean isSpecialCharacter(char c) {
+    return "?[](){}\\|*+^$.".indexOf(c) != -1;
+}

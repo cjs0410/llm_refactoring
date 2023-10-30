@@ -1,0 +1,16 @@
+void insert(Token.Comment commentToken) {
+    Comment comment = new Comment(commentToken.getData());
+    Node insert = comment;
+    if (commentToken.bogus) { // xml declarations are emitted as bogus comments (which is right for html, but not xml)
+        String data = comment.getData();
+        if (data.length() > 1 && (data.startsWith("!") || data.startsWith("?"))) {
+            String declTagName = data.substring(1, data.length() - 1);
+            if (declTagName.length() > 0) {
+                Element el = new Element(settings.normalizeTag(declTagName), baseUri);
+                insert = new XmlDeclaration(el.tagName(), data.startsWith("!"));
+                insert.attributes().addAll(el.attributes());
+            } // else, we couldn't parse it as a decl, so leave as a comment
+        }
+    }
+    insertNode(insert);
+}

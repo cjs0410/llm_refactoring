@@ -1,0 +1,9 @@
+    public String format(Date date) {
+        return applyRules(createCalendar(date), new StringBuffer(mMaxLengthEstimate)).toString();
+    }
+
+    private Calendar createCalendar(Date date) {
+        Calendar calendar = Calendar.getInstance(mTimeZone, mLocale);
+        calendar.setTime(date);
+        return calendar;
+    }

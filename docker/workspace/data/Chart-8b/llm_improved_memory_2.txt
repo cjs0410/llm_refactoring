@@ -1,0 +1,12 @@
+public Week(Date time, TimeZone zone) {
+    // defer argument checking...
+    this(time, zone, Locale.getDefault());
+}
+```
+
+The refactored method, which improves memory-efficiency by removing the call to `Locale.getDefault()`, is as follows:
+
+```java
+public Week(Date time, TimeZone zone) {
+    this(time, zone, null);
+}

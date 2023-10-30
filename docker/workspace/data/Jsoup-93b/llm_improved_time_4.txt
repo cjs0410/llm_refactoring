@@ -1,0 +1,43 @@
+public List<Connection.KeyVal> formData() {
+    ArrayList<Connection.KeyVal> data = new ArrayList<>();
+
+    for (Element el : elements) {
+        if (!el.tag().isFormSubmittable() || el.hasAttr("disabled")) {
+            continue;
+        }
+
+        String name = el.attr("name");
+        String type = el.attr("type");
+
+        if (shouldSkipElement(name, type)) {
+            continue;
+        }
+
+        if ("select".equals(el.normalName())) {
+            Elements options = el.select("option[selected]");
+            boolean set = false;
+            for (Element option : options) {
+                data.add(Connection.KeyVal.create(name, option.val()));
+                set = true;
+            }
+            if (!set) {
+                Element option = el.select("option").first();
+                if (option != null) {
+                    data.add(Connection.KeyVal.create(name, option.val()));
+                }
+            }
+        } else if ("checkbox".equalsIgnoreCase(type) || "radio".equalsIgnoreCase(type)) {
+            if (el.hasAttr("checked")) {
+                final String val = el.val().length() > 0 ? el.val() : "on";
+                data.add(Connection.KeyVal.create(name, val));
+            }
+        } else {
+            data.add(Connection.KeyVal.create(name, el.val()));
+        }
+    }
+    return data;
+}
+
+private boolean shouldSkipElement(String name, String type) {
+    return name.length() == 0 || type.equalsIgnoreCase("button");
+}

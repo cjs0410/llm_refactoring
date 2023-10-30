@@ -1,0 +1,8 @@
+    /**
+     * Retrieve the attribute value.
+     * 
+     * @return the attribute value, or null if it is null
+     */
+    public String getValue() {
+        return Attributes.checkNotNull(val);
+    }

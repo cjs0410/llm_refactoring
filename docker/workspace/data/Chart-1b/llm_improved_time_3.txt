@@ -1,0 +1,26 @@
+public LegendItemCollection getLegendItems() {
+    LegendItemCollection result = new LegendItemCollection();
+    if (this.plot == null) {
+        return result;
+    }
+
+    CategoryDataset dataset = this.plot.getDataset(this.plot.getIndexOf(this));
+    if (dataset == null) {
+        return result;
+    }
+
+    int seriesCount = dataset.getRowCount();
+    SortOrder rowRenderingOrder = this.plot.getRowRenderingOrder();
+
+    for (int i = (rowRenderingOrder.equals(SortOrder.ASCENDING) ? 0 : seriesCount - 1);
+         (rowRenderingOrder.equals(SortOrder.ASCENDING) ? i < seriesCount : i >= 0);
+         i += (rowRenderingOrder.equals(SortOrder.ASCENDING) ? 1 : -1)) {
+        if (isSeriesVisibleInLegend(i)) {
+            LegendItem item = getLegendItem(this.plot.getIndexOf(this), i);
+            if (item != null) {
+                result.add(item);
+            }
+        }
+    }
+    return result;
+}

@@ -1,0 +1,29 @@
+    /**
+     * Escapes special characters in a given string to be used in a regular expression.
+     *
+     * @param regex   The StringBuilder object to append the escaped string.
+     * @param value   The input string to be escaped.
+     * @param unquote Whether to unquote the escaped characters.
+     * @return The modified StringBuilder object.
+     */
+    private static StringBuilder escapeRegex(StringBuilder regex, String value, boolean unquote) {
+        for (int i = 0; i < value.length(); ++i) {
+            char c = value.charAt(i);
+
+            if (c == '\'') {
+                if (unquote) {
+                    if (++i == value.length()) {
+                        return regex;
+                    }
+                    c = value.charAt(i);
+                }
+            }
+
+            if (".*+?|{}[]()^$\\".indexOf(c) >= 0) {
+                regex.append('\\');
+            }
+            regex.append(c);
+        }
+
+        return regex;
+    }

@@ -1,0 +1,11 @@
+    public static int formatLongOctalOrBinaryBytes(
+        final long value, final byte[] buf, final int offset, final int length) {
+
+        buf[offset] = (byte) (value < 0 ? 0xff : 0x80);
+        if (length < 9) {
+            formatLongBinary(value, buf, offset + 1, length, value < 0);
+        } else {
+            formatBigIntegerBinary(value, buf, offset + 1, length, value < 0);
+        }
+        return offset + length + 1;
+    }

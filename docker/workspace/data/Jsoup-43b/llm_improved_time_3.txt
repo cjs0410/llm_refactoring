@@ -1,0 +1,7 @@
+private static <E extends Element> Integer indexInList(Element search, List<E> elements) {
+    Validate.notNull(search);
+    Validate.notNull(elements);
+
+    int index = elements.indexOf(search);
+    return index != -1 ? index : null;
+}

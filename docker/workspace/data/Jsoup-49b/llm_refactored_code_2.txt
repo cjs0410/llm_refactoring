@@ -1,0 +1,11 @@
+protected void insertChildren(int index, List<Node> children) {
+    Validate.notNull(children);
+    ensureChildNodes();
+    int childIndex = index;
+    for (Node child : children) {
+        reparentChild(child);
+        childNodes.add(childIndex, child);
+        reindexChildren(childIndex);
+        childIndex++;
+    }
+}

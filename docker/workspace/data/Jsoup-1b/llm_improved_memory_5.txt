@@ -1,0 +1,14 @@
+private void normalise(Element element) {
+    List<Node> toMove = new ArrayList<>();
+    Node whitespaceNode = new TextNode(" ", "");
+    
+    for (Node node: element.childNodes) {
+        if (node instanceof TextNode) {
+            TextNode tn = (TextNode) node;
+            if (!tn.isBlank()) {
+                element.removeChild(node);
+                body().insertChildren(0,  whitespaceNode.clone(), node.clone());
+            }
+        }
+    }
+}

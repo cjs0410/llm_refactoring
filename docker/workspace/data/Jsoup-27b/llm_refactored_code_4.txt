@@ -1,0 +1,23 @@
+static String getCharsetFromContentType(String contentType) {
+    if (contentType == null) {
+        return null;
+    }
+    
+    Matcher matcher = charsetPattern.matcher(contentType);
+    if (matcher.find()) {
+        String charset = matcher.group(1).trim();
+        if (isSupportedCharset(charset)) {
+            return charset;
+        }
+        charset = charset.toUpperCase(Locale.ENGLISH);
+        if (isSupportedCharset(charset)) {
+            return charset;
+        }
+    }
+    
+    return null;
+}
+
+private static boolean isSupportedCharset(String charset) {
+    return Charset.isSupported(charset);
+}

@@ -1,0 +1,28 @@
+public static boolean containsIgnoreCase(String str, String searchStr) {
+    if (str == null || searchStr == null) {
+        return false;
+    }
+    
+    int strLen = str.length();
+    int searchLen = searchStr.length();
+    int max = strLen - searchLen;
+    
+    for (int i = 0; i <= max; i++) {
+        if (equalsIgnoreCase(str, i, searchStr, searchLen)) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+private static boolean equalsIgnoreCase(String str, int startPos, String searchStr, int searchLen) {
+    for (int i = 0; i < searchLen; i++) {
+        char c1 = Character.toLowerCase(str.charAt(startPos + i));
+        char c2 = Character.toLowerCase(searchStr.charAt(i));
+        if (c1 != c2) {
+            return false;
+        }
+    }
+    return true;
+}

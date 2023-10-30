@@ -1,0 +1,19 @@
+@Override
+public boolean isDirectory() {
+    if (file != null) {
+        return file.isDirectory();
+    }
+    
+    // Check if the entry is a directory based on the linkFlag
+    if (linkFlag == LF_DIR) {
+        return true;
+    }
+  
+    // Check if the entry is a PaxHeader or GlobalPaxHeader
+    if (isPaxHeader() || isGlobalPaxHeader()) {
+        return false;
+    }
+  
+    // Check if the entry name ends with a forward slash ("/")
+    return getName().endsWith("/");
+}

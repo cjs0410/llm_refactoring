@@ -1,0 +1,9 @@
+protected void setName(String name) {
+    if (name != null && getPlatform() == PLATFORM_FAT) {
+        int slashIndex = name.indexOf("/");
+        if (slashIndex == -1) {
+            name = name.replace('\\', '/');
+        }
+    }
+    this.name = name;
+}

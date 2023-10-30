@@ -1,0 +1,27 @@
+private void copyAttributes(org.jsoup.nodes.Node source, Element el) {
+    for (Attribute attribute : source.attributes()) {
+        String originalKey = attribute.getKey();
+        StringBuilder modifiedKey = new StringBuilder(originalKey.length());
+
+        boolean isFirstCharValid = Character.isLetter(originalKey.charAt(0)) ||
+                originalKey.charAt(0) == '_' || originalKey.charAt(0) == ':';
+
+        if (isFirstCharValid) {
+            modifiedKey.append(originalKey.charAt(0));
+        }
+
+        for (int i = 1; i < originalKey.length(); i++) {
+            char c = originalKey.charAt(i);
+            boolean isCharValid = Character.isLetterOrDigit(c) || c == '-' ||
+                    c == '_' || c == ':' || c == '.';
+
+            if (isCharValid) {
+                modifiedKey.append(c);
+            }
+        }
+
+        if (isFirstCharValid || modifiedKey.length() > 0) {
+            el.setAttribute(modifiedKey.toString(), attribute.getValue());
+        }
+    }
+}

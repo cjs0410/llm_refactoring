@@ -1,0 +1,22 @@
+protected void setName(String name) {
+    if (shouldReplaceBackslashes(name)) {
+        name = replaceBackslashes(name);
+    }
+    this.name = name;
+}
+
+private boolean shouldReplaceBackslashes(String name) {
+    return name != null && isPlatformFat() && doesNotContainForwardSlash(name);
+}
+
+private boolean isPlatformFat() {
+    return getPlatform() == PLATFORM_FAT;
+}
+
+private boolean doesNotContainForwardSlash(String name) {
+    return name.indexOf("/") == -1;
+}
+
+private String replaceBackslashes(String name) {
+    return name.replace('\\', '/');
+}

@@ -1,0 +1,14 @@
+static boolean preserveWhitespace(Node node) {
+    if (node != null && node instanceof Element) {
+        Element el = (Element) node;
+        int depth = 0;
+        while (depth < 6 && el != null) {
+            if (el.tag.preserveWhitespace()) {
+                return true;
+            }
+            el = el.parent();
+            depth++;
+        }
+    }
+    return false;
+}

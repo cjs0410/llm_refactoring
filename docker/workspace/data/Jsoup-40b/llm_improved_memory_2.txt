@@ -1,0 +1,13 @@
+public DocumentType(String name, String publicId, String systemId, String baseUri) {
+    super(baseUri);
+
+    setNonEmptyAttributeValue("name", name);
+    setNonEmptyAttributeValue("publicId", publicId);
+    setNonEmptyAttributeValue("systemId", systemId);
+}
+
+private void setNonEmptyAttributeValue(String attribute, String value) {
+    if (value != null && !value.trim().isEmpty()) {
+        attr(attribute, value.trim());
+    }
+}

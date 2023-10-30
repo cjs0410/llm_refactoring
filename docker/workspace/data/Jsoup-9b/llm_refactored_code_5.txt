@@ -1,0 +1,12 @@
+private static final Map<Character, String> xhtmlByVal;
+private static final Map<Character, String> baseByVal;
+private static final Map<Character, String> fullByVal;
+private static final Pattern unescapePattern = Pattern.compile("&(#(x|X)?([0-9a-fA-F]+)|[a-zA-Z]+\\d*);?");
+
+static String escape(String string, Document.OutputSettings out) {
+    return escapeEntities(string, out.encoder(), out.escapeMode());
+}
+
+private static String escapeEntities(String string, Charset encoder, Document.EscapeMode escapeMode) {
+    // implementation
+}

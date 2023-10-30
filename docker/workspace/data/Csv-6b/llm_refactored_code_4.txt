@@ -1,0 +1,13 @@
+    <M extends Map<String, String>> M putIn(final M map) {
+        for (final Entry<String, Integer> entry : mapping.entrySet()) {
+            final int col = entry.getValue().intValue();
+            if (isValidColumnIndex(col)) {
+                map.put(entry.getKey(), values[col]);
+            }
+        }
+        return map;
+    }
+
+    private boolean isValidColumnIndex(int columnIndex) {
+        return columnIndex >= 0 && columnIndex < values.length;
+    }

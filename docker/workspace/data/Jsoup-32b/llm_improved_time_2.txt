@@ -1,0 +1,6 @@
+@Override
+public Element clone() {
+    Element clone = new Element(tagName(), baseUri());
+    clone.classNames().addAll(classNames()); // copies the class names from the source element
+    return clone;
+}

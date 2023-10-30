@@ -1,0 +1,16 @@
+public XmlDeclaration asXmlDeclaration() {
+    String data = getData();
+    String tagContent = "<" + data.substring(1, data.length() - 1) + ">";
+    Document doc = Jsoup.parse(tagContent, baseUri(), Parser.xmlParser());
+    List<Element> children = doc.children();
+
+    XmlDeclaration decl = null;
+    if (!children.isEmpty()) {
+        Element el = children.get(0);
+        String normalizedTag = NodeUtils.parser(doc).settings().normalizeTag(el.tagName());
+        boolean startsWithExclamation = data.startsWith("!");
+        decl = new XmlDeclaration(normalizedTag, startsWithExclamation);
+        decl.attributes().addAll(el.attributes());
+    }
+    return decl;
+}

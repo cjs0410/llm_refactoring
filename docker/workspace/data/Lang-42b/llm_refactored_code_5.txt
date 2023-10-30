@@ -1,0 +1,31 @@
+public void escape(Writer writer, String str) throws IOException {
+    int len = str.length();
+    for (int i = 0; i < len; i++) {
+        int c = Character.codePointAt(str, i);
+        String entityName = this.entityName(c);
+        if (entityName == null) {
+            if (c >= 0x010000 && i < len - 1) {
+                writeDecimalEntity(writer, c);
+                i++;
+            } else if (c > 0x7F) {
+                writeDecimalEntity(writer, c);
+            } else {
+                writer.write(c);
+            }
+        } else {
+            writeEntity(writer, entityName);
+        }
+    }
+}
+
+private void writeDecimalEntity(Writer writer, int c) throws IOException {
+    writer.write("&#");
+    writer.write(Integer.toString(c, 10));
+    writer.write(';');
+}
+
+private void writeEntity(Writer writer, String entityName) throws IOException {
+    writer.write('&');
+    writer.write(entityName);
+    writer.write(';');
+}

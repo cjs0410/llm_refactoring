@@ -1,0 +1,10 @@
+    public String generateToolTipFragment(String toolTipText) {
+        StringBuilder fragment = new StringBuilder();
+        String escapedToolTipText = ImageMapUtilities.htmlEscape(toolTipText);
+        
+        fragment.append(" title=\"");
+        fragment.append(escapedToolTipText);
+        fragment.append("\" alt=\"\"");
+        
+        return fragment.toString();
+    }

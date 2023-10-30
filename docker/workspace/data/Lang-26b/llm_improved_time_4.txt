@@ -1,0 +1,8 @@
+public String format(Date date) {
+    Calendar c = getCalendar(date);
+    return applyRules(c, new StringBuffer(mMaxLengthEstimate)).toString();
+}
+
+private Calendar getCalendar(Date date) {
+    return Calendar.getInstance(mTimeZone, mLocale);
+}

@@ -1,0 +1,12 @@
+protected void setName(String name) {
+    if (name != null && getPlatform() == PLATFORM_FAT) {
+        StringBuilder sb = new StringBuilder(name);
+        for (int i = 0; i < sb.length(); i++) {
+            if (sb.charAt(i) == '\\' && sb.indexOf("/", i) == -1) {
+                sb.setCharAt(i, '/');
+            }
+        }
+        name = sb.toString();
+    }
+    this.name = name;
+}

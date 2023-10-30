@@ -1,0 +1,7 @@
+public void close() throws IOException {
+    if (!closed) {
+        finish();
+    }
+    super.close();
+    closed = true;
+}

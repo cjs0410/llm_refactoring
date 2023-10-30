@@ -1,0 +1,11 @@
+    /**
+     * Generates the formatted HTML area tag attribute(s) with properly escaped
+     * tooltip text.
+     *
+     * @param toolTipText the tooltip text to be escaped and formatted
+     * @return the formatted HTML area tag attribute(s)
+     */
+    public String generateToolTipFragment(String toolTipText) {
+        String escapedToolTip = ImageMapUtilities.htmlEscape(toolTipText);
+        return " title=\"" + escapedToolTip + "\" alt=\"\"";
+    }

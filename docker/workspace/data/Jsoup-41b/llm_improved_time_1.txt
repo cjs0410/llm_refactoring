@@ -1,0 +1,13 @@
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Element)) {
+            return false;
+        }
+
+        Element element = (Element) o;
+
+        return super.equals(o) && tag.equals(element.tag);
+    }

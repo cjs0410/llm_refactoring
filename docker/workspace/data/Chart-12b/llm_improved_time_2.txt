@@ -1,0 +1,14 @@
+public MultiplePiePlot(CategoryDataset dataset) {
+    super();
+    setDataset(dataset);
+    this.pieChart = ChartFactory.createPieChart(null, dataset, true, true, false);
+    this.pieChart.removeLegend();
+    this.dataExtractOrder = TableOrder.BY_COLUMN;
+    this.pieChart.setBackgroundPaint(null);
+    TextTitle seriesTitle = new TextTitle("Series Title", new Font("SansSerif", Font.BOLD, 12));
+    seriesTitle.setPosition(RectangleEdge.BOTTOM);
+    this.pieChart.setTitle(seriesTitle);
+    this.aggregatedItemsKey = "Other";
+    this.aggregatedItemsPaint = Color.lightGray;
+    this.sectionPaints = new HashMap<>();
+}

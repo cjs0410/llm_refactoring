@@ -1,0 +1,13 @@
+public static String parseName(byte[] buffer, final int offset, final int length) {
+    int end = offset + length;
+
+    for (int i = offset; i < end; ++i) {
+        byte b = buffer[i];
+        if (b == 0) { // Trailing null
+            end = i;
+            break;
+        }
+    }
+
+    return new String(buffer, offset, end - offset, StandardCharsets.ISO_8859_1);
+}

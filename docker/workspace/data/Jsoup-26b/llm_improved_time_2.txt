@@ -1,0 +1,24 @@
+public Document clean(Document dirtyDocument) {
+    Validate.notNull(dirtyDocument);
+
+    Document clean;
+    if (dirtyDocument.body() == null) {
+        clean = Document.createShell(dirtyDocument.baseUri());
+    } else {
+        clean = Document.createShell();
+        copySafeNodes(dirtyDocument.body(), clean.body());
+    }
+
+    return clean;
+}
+
+private static void copySafeNodes(Element source, Element destination) {
+    for (Node node : source.childNodesCopy()) {
+        if (node instanceof Element && node.tag().isSafe()) {
+            Element childElement = (Element) node;
+            Element clonedElement = childElement.clone();
+            destination.appendChild(clonedElement);
+            copySafeNodes(childElement, clonedElement);
+        }
+    }
+}

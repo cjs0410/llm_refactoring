@@ -1,0 +1,4 @@
+    public String getValue() {
+        Attributes.checkNotNull(val);
+        return val;
+    }

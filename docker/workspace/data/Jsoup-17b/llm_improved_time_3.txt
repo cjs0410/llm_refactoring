@@ -1,0 +1,9 @@
+enum TreeBuilderState {
+    // existing code...
+
+    private static final String NULL_STRING = "\u0000";
+
+    abstract boolean process(Token t, TreeBuilder tb);
+
+    // existing code...
+}

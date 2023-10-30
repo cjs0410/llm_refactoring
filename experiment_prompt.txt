@@ -1,0 +1,103 @@
+        # response = openai.ChatCompletion.create(
+        # model="gpt-3.5-turbo",
+        # messages=[
+        #         {
+        #             "role": "system", 
+        #             "content": ("You are a bug patching assistant. You will be presented with a developer patch of the bug."
+        #                         "In a developer patch, a statement starting with a single '-' indicates a deleted statement, and a statement starting with a single '+' indicates a added statement."
+        #                         "Your task is to provide a efficient(optimized) patch for the original code by referring to the developer patch."
+        #                         "Your patch should be semantically the same as the developer patch."
+        #                         "You will provide patch that has same format as provided developer patch without explanation"
+        #                         "You will provide patch based on original code before applying developer patch."
+        #                         "Your patch should show the difference from the original code before applying developer patch."
+        #                         "If you can no longer optimize in a developer patch, return the developer patch that user gave you.")
+        #         },
+        #         {
+        #             "role": "user", 
+        #             "content": dev_patch
+        #         },
+        #     ]
+        # )
+
+        # response = openai.ChatCompletion.create(
+        # model="gpt-3.5-turbo",
+        # messages=[
+        #         {
+        #             "role": "system", 
+        #             "content": ("You are a bug patching assistant. You will be presented with a developer patch of the bug."
+        #                         "In a developer patch, a statement starting with a single '-' indicates a deleted statement, and a statement starting with a single '+' indicates a added statement."
+        #                         "First, add a statement that starts with one '-' and remove a statement that starts with one '+' to obtain the original code."
+        #                         "Then provide a efficient(optimized) patch for the buggy code by referring to the developer patch."
+        #                         "Your patch should be semantically same as the developer patch."
+        #                         "You will provide patch that has same format as provided developer patch without explanation."
+        #                         "Your patch should show the difference from the original code before applying developer patch because your patch will be applied to the original code, not the code after applying the developer patch."
+        #                         "You shouldn't change the original code arbitrarily."
+        #                         "You shouldn't change the buggy version's code arbitrarily even if it is a comment."
+        #                         "If you can no longer optimize in a developer patch, return the developer patch that user gave you.")
+        #         },
+        #         {
+        #             "role": "user",
+        #             "content": ex_patch
+        #         },
+        #         {
+        #             "role": "assistant",
+        #             "content": be_patch
+        #         },
+        #         {
+        #             "role": "user", 
+        #             "content": dev_patch
+        #         },
+        #     ]
+        # )
+
+        # response = openai.ChatCompletion.create(
+        # model="gpt-3.5-turbo",
+        # messages=[
+        #         {
+        #             "role": "system", 
+        #             "content": ("You are a helpful assistant. You will be presented with a developer patch of the bug."
+        #                         "In a developer patch, a statement starting with a single '-' indicates a deleted statement after patch, and a statement starting with a single '+' indicates a added statement after patch."
+        #                         # "Add a statement that starts with one '-' and remove a statement that starts with one '+' to obtain the original code."
+        #                         "You will provide the code snippet before the patch based on the developer patch."
+        #                         "Do not modify or ignore the pre-patched code arbitrarily.")
+        #         },
+        #         {
+        #             "role": "user", 
+        #             "content": dev_patch
+        #         },
+        #     ]
+        # )
+
+                    {
+                "role": "system", 
+                "content": ("You are a bug patching assistant. You will be presented with a developer patch (difference between fixed and buggy version) of the bug and pre-patched(buggy) version for that part."
+                            "You will also be presented with tools (functions) to access the regression test suite of bug-fixed version (version after the developer patch is applied) and failing tests of buggy version (version before the developer patch is applied)."
+                            # "Your task is to provide smaller patch by referring to the developer patch, pre-patch(buggy) code and the information you retrieved using tools(functions)."
+                            "Your task is refactoring the developer patch to make code simpler."
+                            "Your patch should show difference from pre-patched(buggy) version."
+                            "Your patch should be semantically same as the developer patch. In other words, your patch should pass all the regression test suites created in the bug-fixed version."
+                            "Your patch should have same format (indentation, etc.) as provided developer patch."
+                            "If you don't need to modify a developer patch, your response should obtain the given developer patch (difference between fixed and buggy version) as it is."
+                            "You should not provide any explanation about result."
+                            "You shouldn't change the buggy version's code arbitrarily even if it is a comment."
+                            "You will be given 6 chances to interact with functions to gather information."
+                            )
+            },
+
+                            "content": ("You are a refactoring assistant. You will be provided with a developer patch of the bug, pre-patched(buggy) verion code for that part, and template of the patch. "
+                            "You will also be provided with tools (functions) to retrieve the failing tests of pre-patched(buggy) version. "
+                            "Your task is refactoring the developer patch to make patch more readable and simple. "
+                            "You have to answer only the template filled with the <INFILL> part. "
+                            # "The template contains the basic format of the patch and your task is to fill in the <INFILL> part of the template."
+                            "You should provide only refactored patch. "
+                            "Your patch should be semantically same as the developer patch. "
+                            "Your patch should be a difference from the pre-patched(buggy) version. "
+                            "You should write a patch assuming that you are fixing the pre-patched(buggy) version. "
+                            "You should not consider the code part that didn't appear in the developer patch. "
+                            # "Your patch should be semantically same as the developer patch. In other words, your patch should pass all the regression test suites created in the bug-fixed version."
+                            # "Your patch should have same format (indentation, +, -, etc.) as provided developer patch."
+                            "If you don't need to modify a developer patch, you will reply with just the given developer patch as it is. "
+                            # "You should not provide any explanation about result."
+                            # "You shouldn't change the buggy version's code arbitrarily even if it is a comment."
+                            "You will be given 6 chances to interact with functions to gather information. "
+                            )

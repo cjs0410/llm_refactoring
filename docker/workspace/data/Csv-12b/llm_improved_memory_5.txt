@@ -1,0 +1,7 @@
+public static final CSVFormat EXCEL = CSVFormat.DEFAULT
+        .withIgnoreEmptyLines(false)
+        .withAllowMissingColumnNames(true);
+
+/**
+ * Tab-delimited format.
+ */

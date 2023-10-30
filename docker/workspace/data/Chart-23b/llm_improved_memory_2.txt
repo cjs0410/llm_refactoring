@@ -1,0 +1,18 @@
+    /**
+     * Checks whether this MinMaxCategoryRenderer is equal to the given object.
+     *
+     * @param obj the object to compare to
+     * @return true if the objects are equal, false otherwise
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        MinMaxCategoryRenderer that = (MinMaxCategoryRenderer) obj;
+        return super.equals(obj) 
+                && plotLines == that.plotLines;
+    }

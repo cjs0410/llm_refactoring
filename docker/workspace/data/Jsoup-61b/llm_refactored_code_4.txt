@@ -1,0 +1,27 @@
+public boolean hasClass(String className) {
+    final String classAttr = attributes.getIgnoreCase("class");
+    final int classAttrLen = classAttr == null ? 0 : classAttr.length();
+    final int classNameLen = className.length();
+
+    if (classAttrLen == 0 || classAttrLen < classNameLen) {
+        return false;
+    }
+
+    if (classAttrLen == classNameLen) {
+        return className.equalsIgnoreCase(classAttr);
+    }
+
+    int checkPos = 0;
+    while (checkPos < classAttrLen) {
+        final int nextSpace = classAttr.indexOf(' ', checkPos);
+        final int end = nextSpace == -1 ? classAttrLen : nextSpace;
+
+        if (end - checkPos == classNameLen && classAttr.regionMatches(true, checkPos, className, 0, classNameLen)) {
+            return true;
+        }
+
+        checkPos = end + 1;
+    }
+
+    return false;
+}

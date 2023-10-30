@@ -1,0 +1,11 @@
+public Document clean(Document dirtyDocument) {
+    Validate.notNull(dirtyDocument);
+
+    Document clean = Document.createShell(dirtyDocument.baseUri());
+    Element dirtyDocumentBody = dirtyDocument.body();
+    if (dirtyDocumentBody != null) {
+        copySafeNodes(dirtyDocumentBody, clean.body());
+    }
+
+    return clean;
+}

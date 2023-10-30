@@ -1,0 +1,35 @@
+    private static StringBuilder escapeRegex(StringBuilder regex, String value, boolean unquote) {
+        StringBuilder updatedRegex = new StringBuilder();
+        for(int i = 0; i < value.length(); ++i) {
+            char c = value.charAt(i);
+            switch(c) {
+                case '\'':
+                    if(unquote) {
+                        if(++i == value.length()) {
+                            return updatedRegex;
+                        }
+                        c = value.charAt(i);
+                    }
+                    break;
+                case '?':
+                case '[':
+                case ']':
+                case '(':
+                case ')':
+                case '{':
+                case '}':
+                case '\\':
+                case '|':
+                case '*':
+                case '+':
+                case '^':
+                case '$':
+                case '.':
+                    updatedRegex.append('\\');
+                default:
+                    updatedRegex.append(c);
+                    break;
+            }
+        }
+        return updatedRegex;
+    }

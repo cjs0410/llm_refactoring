@@ -1,0 +1,23 @@
+static String escape(String string, Document.OutputSettings out) {
+    return escape(string, out.encoder(), out.escapeMode());
+}
+
+private static String escape(String string, String encoder, Document.EscapeMode escapeMode) {
+    // Your existing implementation here
+}
+
+private static Pattern getUnescapePattern() {
+    return Pattern.compile("&(#(x|X)?([0-9a-fA-F]+)|[a-zA-Z]+\\d*);?");
+}
+
+private static Map<Character, String> getXhtmlByVal() {
+    // Initialize xhtmlByVal map if necessary, return it
+}
+
+private static Map<Character, String> getBaseByVal() {
+    // Initialize baseByVal map if necessary, return it
+}
+
+private static Map<Character, String> getFullByVal() {
+    // Initialize fullByVal map if necessary, return it
+}

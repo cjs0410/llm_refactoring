@@ -1,0 +1,15 @@
+static int toJavaVersionInt(String version) {
+    String[] parts = version.split("\\.");
+    int versionInt = 0;
+    if (parts.length > 0) {
+        for (String part : parts) {
+            try {
+                int partInt = Integer.parseInt(part);
+                versionInt = (versionInt * 10) + partInt;
+            } catch (NumberFormatException e) {
+                break;
+            }
+        }
+    }
+    return versionInt;
+}

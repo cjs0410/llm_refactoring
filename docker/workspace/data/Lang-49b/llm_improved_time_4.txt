@@ -1,0 +1,9 @@
+    public Fraction reduce() {
+        if (numerator == 0) {
+            return equals(ZERO) ? this : ZERO;
+        }
+        
+        int gcd = greatestCommonDivisor(Math.abs(numerator), denominator);
+        
+        return gcd == 1 ? this : Fraction.getFraction(numerator / gcd, denominator / gcd);
+    }

@@ -1,0 +1,9 @@
+enum TreeBuilderState {
+    // other states
+
+    private static String nullString = String.valueOf('\u0000');
+
+    abstract boolean process(Token t, TreeBuilder tb);
+
+    // other methods and fields
+}

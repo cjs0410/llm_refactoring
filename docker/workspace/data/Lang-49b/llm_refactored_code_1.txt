@@ -1,0 +1,18 @@
+public Fraction reduce() {
+    if (numerator == 0) {
+        if (equals(ZERO)) {
+            return this;
+        } else {
+            return ZERO;
+        }
+    }
+    int gcd = greatestCommonDivisor(Math.abs(numerator), denominator);
+    if (gcd == 1) {
+        return this;
+    }
+  
+    // perform fraction reduction
+    int reducedNumerator = numerator / gcd;
+    int reducedDenominator = denominator / gcd;
+    return Fraction.getFraction(reducedNumerator, reducedDenominator);
+}

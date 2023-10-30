@@ -1,0 +1,20 @@
+private InputStream getCurrentStream() throws IOException {
+    if (deferredBlockStreams.isEmpty()) {
+        throw new IllegalStateException("No current 7z entry (call getNextEntry() first).");
+    }
+
+    if (archive.files[currentEntryIndex].getSize() == 0) {
+        return new ByteArrayInputStream(new byte[0]);
+    }
+
+    InputStream currentStream = deferredBlockStreams.get(0);
+
+    for (int i = 1; i < deferredBlockStreams.size(); i++) {
+        InputStream stream = deferredBlockStreams.get(i);
+        IOUtils.skip(stream, Long.MAX_VALUE);
+        stream.close();
+    }
+    deferredBlockStreams.subList(1, deferredBlockStreams.size()).clear();
+
+    return currentStream;
+}

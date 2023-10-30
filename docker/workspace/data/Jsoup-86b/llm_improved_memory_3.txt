@@ -1,0 +1,19 @@
+public XmlDeclaration asXmlDeclaration() {
+    String data = getData();
+    XmlParser xmlParser = Parser.xmlParser();
+    String xmlString = "<" + data.substring(1, data.length() - 1) + ">";
+    Document doc = xmlParser.parseInput(xmlString, baseUri());
+    XmlDeclaration decl = null;
+    List<Node> children = doc.children();
+    if (children.size() > 0) {
+        Element el = (Element) children.get(0);
+        XmlParser parser = NodeUtils.parser(doc);
+        ParserSettings settings = parser.settings();
+        String normalizedTag = settings.normalizeTag(el.tagName());
+        boolean isComment = data.startsWith("!");
+        decl = new XmlDeclaration(normalizedTag, isComment);
+        Attributes attributes = el.attributes();
+        decl.attributes().addAll(attributes);
+    }
+    return decl;
+}

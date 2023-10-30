@@ -1,0 +1,17 @@
+import java.util.Map;
+import java.util.Optional;
+
+public class CSVParser {
+    private Map<String, Integer> headerMap;
+
+    // ...
+
+    /**
+     * @return an optional copy of the header map that iterates in column order.
+     */
+    public Optional<Map<String, Integer>> getHeaderMap() {
+        return Optional.ofNullable(this.headerMap);
+    }
+
+    // ...
+}

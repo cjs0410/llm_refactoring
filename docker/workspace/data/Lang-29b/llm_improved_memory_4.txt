@@ -1,0 +1,5 @@
+static int toJavaVersionInt(String version) {
+    int[] versionIntArray = toJavaVersionIntArray(version, JAVA_VERSION_TRIM_SIZE);
+    int javaVersionInt = toVersionInt(versionIntArray);
+    return javaVersionInt;
+}

@@ -1,0 +1,8 @@
+public Paint getPaint(double value) {
+    double v = Math.max(value, getLowerBound());
+    v = Math.min(v, getUpperBound());
+    int g = (int) ((v - getLowerBound()) / (getUpperBound() - getLowerBound()) * 255.0);
+
+    int rgb = (g << 16) | (g << 8) | g;
+    return new Color(rgb);
+}

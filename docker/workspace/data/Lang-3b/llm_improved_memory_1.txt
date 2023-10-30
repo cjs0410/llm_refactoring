@@ -1,0 +1,102 @@
+public static Number createNumber(final String str) throws NumberFormatException {
+    if (str == null) {
+        return null;
+    }
+    if (StringUtils.isBlank(str)) {
+        throw new NumberFormatException("A blank string is not a valid number");
+    }
+
+    int pfxLen = checkHexPrefixes(str);
+
+    if (pfxLen > 0) { // we have a hex number
+        return createHexNumber(str, pfxLen);
+    }
+
+    final char lastChar = str.charAt(str.length() - 1);
+    String mant;
+    String dec;
+    String exp;
+    int decPos = str.indexOf('.');
+    int expPos = str.indexOf('e') + str.indexOf('E') + 1; // assumes both not present
+
+    int numDecimals = 0;
+
+    if (decPos > -1) { // there is a decimal point
+        if (expPos > -1) { // there is an exponent
+            if (expPos < decPos || expPos > str.length()) { // prevents double exponent causing IOOBE
+                throw new NumberFormatException(str + " is not a valid number.");
+            }
+            dec = str.substring(decPos + 1, expPos);
+        } else {
+            dec = str.substring(decPos + 1);
+        }
+        mant = str.substring(0, decPos);
+        numDecimals = dec.length();
+    } else {
+        if (expPos > -1) {
+            if (expPos > str.length()) { // prevents double exponent causing IOOBE
+                throw new NumberFormatException(str + " is not a valid number.");
+            }
+            mant = str.substring(0, expPos);
+        } else {
+            mant = str;
+        }
+        dec = null;
+    }
+
+    if (!Character.isDigit(lastChar) && lastChar != '.') {
+        if (expPos > -1 && expPos < str.length() - 1) {
+            exp = str.substring(expPos + 1, str.length() - 1);
+        } else {
+            exp = null;
+        }
+        final String numeric = str.substring(0, str.length() - 1);
+        final boolean allZeros = isAllZeros(mant) && isAllZeros(exp);
+
+        Number result = null;
+
+        switch (lastChar) {
+            case 'l':
+            case 'L':
+                result = createLongOrBigInteger(numeric, dec, exp, allZeros);
+                break;
+
+            case 'f':
+            case 'F':
+                result = createFloat(numeric, allZeros, numDecimals);
+                break;
+
+            case 'd':
+            case 'D':
+                result = createDouble(numeric, allZeros, numDecimals);
+                break;
+
+            default:
+                throw new NumberFormatException(str + " is not a valid number.");
+        }
+
+        if (result != null) {
+            return result;
+        }
+    }
+
+    if (expPos > -1 && expPos < str.length() - 1) {
+        exp = str.substring(expPos + 1, str.length());
+    } else {
+        exp = null;
+    }
+
+    if (dec == null && exp == null) {
+        return createIntegerOrLongOrBigInteger(str);
+    }
+
+    boolean allZeros = isAllZeros(mant) && isAllZeros(exp);
+
+    if (numDecimals <= 7) {
+        return createFloat(str, allZeros);
+    } else if (numDecimals <= 16) {
+        return createDouble(str, allZeros);
+    } else {
+        return createBigDecimal(str);
+    }
+}

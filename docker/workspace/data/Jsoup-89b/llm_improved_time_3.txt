@@ -1,0 +1,16 @@
+public String setValue(String val) {
+    String oldVal;
+    if (parent != null) {
+        int i = parent.indexOfKey(this.key);
+        if (i != Attributes.NotFound) {
+            oldVal = parent.vals[i];
+            parent.vals[i] = val;
+        } else {
+            oldVal = this.val;
+        }
+    } else {
+        oldVal = this.val;
+    }
+    this.val = val;
+    return oldVal;
+}

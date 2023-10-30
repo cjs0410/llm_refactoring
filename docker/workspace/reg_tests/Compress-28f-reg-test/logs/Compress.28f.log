@@ -1,0 +1,13 @@
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 10:12:50  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Compress
+ -v 28f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/Compress/modified_classes/28.src
+ -s 1028
+Created test suite archive: Compress-28f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/Compress-28f-reg-test/Compress/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 10:14:31  ######

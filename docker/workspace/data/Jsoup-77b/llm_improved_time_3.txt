@@ -1,0 +1,22 @@
+private void popStackToClose(Token.EndTag endTag) {
+    String elName = endTag.normalName();
+    Element firstFound = null;
+
+    // Iterate through the stack from the top to find the matching end tag
+    for (int pos = stack.size() - 1; pos >= 0; pos--) {
+        Element next = stack.get(pos);
+        if (next.nodeName().equalsIgnoreCase(elName)) {
+            firstFound = next;
+            break;
+        }
+    }
+    if (firstFound == null)
+        return; // not found, skip
+
+    int foundPos = stack.lastIndexOf(firstFound);
+
+    // Remove elements from the stack starting from the last-found position
+    for (int pos = stack.size() - 1; pos >= foundPos; pos--) {
+        stack.remove(pos);
+    }
+}

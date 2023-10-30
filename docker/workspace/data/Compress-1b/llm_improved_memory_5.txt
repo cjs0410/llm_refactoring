@@ -1,0 +1,19 @@
+public void close() throws IOException {
+    if (!this.closed) {
+        finishWriting();
+        super.close();
+        this.closed = true;
+    }
+}
+
+private void finishWriting() throws IOException {
+    if (!this.writingFinished) {
+        writeNextEntryHeader();
+        this.writingFinished = true;
+    }
+}
+
+private void writeNextEntryHeader() throws IOException {
+    // Write the entry header to the archive
+    // ...
+}

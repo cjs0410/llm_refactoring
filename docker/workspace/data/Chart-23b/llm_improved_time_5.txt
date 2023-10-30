@@ -1,0 +1,21 @@
+    /**
+     * Returns true if the specified object is equal to this MinMaxCategoryRenderer, and false otherwise.
+     * Two MinMaxCategoryRenderer objects are considered equal if they have the same plotLines, and if
+     * the superclass's equals method also returns true.
+     *
+     * @param obj  the object to compare to.
+     * @return true if the objects are equal, false otherwise.
+     */
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof MinMaxCategoryRenderer)) {
+            return false;
+        }
+        MinMaxCategoryRenderer that = (MinMaxCategoryRenderer) obj;
+        if (this.plotLines != that.plotLines) {
+            return false;
+        }
+        return super.equals(obj);
+    }

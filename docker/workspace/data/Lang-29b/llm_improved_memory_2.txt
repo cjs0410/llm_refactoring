@@ -1,0 +1,10 @@
+    /**
+     * Converts the Java version string into an integer representation.
+     * 
+     * @param version the Java version string
+     * @return the version code, for example 131 for Java 1.3.1
+     */
+    static int toJavaVersionInt(String version) {
+        int[] versionArray = toJavaVersionIntArray(version, JAVA_VERSION_TRIM_SIZE);
+        return toVersionInt(versionArray);
+    }

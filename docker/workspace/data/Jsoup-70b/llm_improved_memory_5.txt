@@ -1,0 +1,13 @@
+static boolean preserveWhitespace(Node node) {
+    // looks only at this element and five levels up, to prevent recursion & needless stack searches
+    Element el = (node instanceof Element) ? (Element) node : null;
+    int i = 0;
+    while (el != null && i < 6) {
+        if (el.tag.preserveWhitespace()) {
+            return true;
+        }
+        el = el.parent();
+        i++;
+    }
+    return false;
+}

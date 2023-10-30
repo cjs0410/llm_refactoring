@@ -1,0 +1,66 @@
+static Document parseInputStream(InputStream input, String charsetName, String baseUri, Parser parser) throws IOException {
+    if (input == null) {
+        return new Document(baseUri);
+    }
+
+    input = ConstrainableInputStream.wrap(input, bufferSize, 0);
+    Document doc = null;
+    boolean fullyRead = false;
+    ByteBuffer firstBytes = null;
+    BomCharset bomCharset = null;
+
+    try {
+        input.mark(bufferSize);
+
+        firstBytes = readToByteBuffer(input, firstReadBufferSize - 1);
+        fullyRead = input.read() == -1;
+        input.reset();
+
+        bomCharset = detectCharsetFromBom(firstBytes);
+        charsetName = getCharsetFromBom(bomCharset, charsetName);
+
+        if (charsetName == null) {
+            String docData = Charset.forName(defaultCharset).decode(firstBytes).toString();
+            doc = parser.parseInput(docData, baseUri);
+            String foundCharset = getCharsetFromMetaElements(doc);
+
+            if (foundCharset != null && !foundCharset.equalsIgnoreCase(defaultCharset)) {
+                charsetName = foundCharset.trim().replaceAll("[\"']", "");
+                doc = null;
+            } else if (!fullyRead) {
+                doc = null;
+            }
+        } else {
+            Validate.notEmpty(charsetName, "Must set charset arg to character set of file to parse. Set to null to attempt to detect from HTML");
+        }
+
+        if (doc == null) {
+            if (charsetName == null) {
+                charsetName = defaultCharset;
+            }
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input, charsetName), bufferSize);
+            
+            if (bomCharset != null && bomCharset.offset) {
+                reader.skip(1);
+            }
+
+            try {
+                doc = parser.parseInput(reader, baseUri);
+            } catch (UncheckedIOException e) {
+                throw e.ioException();
+            }
+
+            Charset charset = Charset.forName(charsetName);
+            doc.outputSettings().charset(charset);
+
+            if (!charset.canEncode()) {
+                doc.charset(Charset.forName(defaultCharset));
+                updateMetaCharset(doc, defaultCharset);
+            }
+        }
+    } finally {
+        input.close();
+    }
+
+    return doc;
+}

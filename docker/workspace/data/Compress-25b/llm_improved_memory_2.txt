@@ -1,0 +1,15 @@
+public ZipArchiveInputStream(InputStream inputStream,
+                             String encoding,
+                             boolean useUnicodeExtraFields,
+                             boolean allowStoredEntriesWithDataDescriptor) {
+    zipEncoding = ZipEncodingHelper.getZipEncoding(encoding);
+    this.useUnicodeExtraFields = useUnicodeExtraFields;
+    in = new PushbackInputStream(inputStream, buf.capacity());
+    setAllowStoredEntriesWithDataDescriptor(allowStoredEntriesWithDataDescriptor);
+}
+
+public void setAllowStoredEntriesWithDataDescriptor(boolean allowStoredEntriesWithDataDescriptor) {
+    this.allowStoredEntriesWithDataDescriptor = allowStoredEntriesWithDataDescriptor;
+    buf.clear(); // Reset the buffer to initial state
+    buf.limit(0); // Set the limit to 0 to indicate no data has been read
+}

@@ -1,0 +1,25 @@
+public String get(final String name) {
+    if (mapping == null || mapping.isEmpty()) {
+        throw new IllegalArgumentException(
+            "No header mapping was specified, the record values can't be accessed by name"
+        );
+    }
+
+    final Integer index = mapping.get(name);
+    if (index == null) {
+        return null;
+    } else {
+        int indexValue = index.intValue();
+
+        if (indexValue >= values.length) {
+            throw new IllegalArgumentException(
+                String.format(
+                    "Index for header '%s' is %d but CSVRecord only has %d values!",
+                    name, indexValue, values.length
+                )
+            );
+        }
+
+        return values[indexValue];
+    }
+}

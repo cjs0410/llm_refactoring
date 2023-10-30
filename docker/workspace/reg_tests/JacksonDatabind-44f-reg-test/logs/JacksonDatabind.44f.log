@@ -1,0 +1,13 @@
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 13:55:22  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p JacksonDatabind
+ -v 44f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/JacksonDatabind/modified_classes/44.src
+ -s 1044
+Created test suite archive: JacksonDatabind-44f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/JacksonDatabind-44f-reg-test/JacksonDatabind/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 13:56:59  ######

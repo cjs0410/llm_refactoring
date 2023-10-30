@@ -1,0 +1,141 @@
+public static Number createNumber(final String str) throws NumberFormatException {
+    if (str == null) {
+        return null;
+    }
+    if (StringUtils.isBlank(str)) {
+        throw new NumberFormatException("A blank string is not a valid number");
+    }
+
+    final char lastChar = str.charAt(str.length() - 1);
+    if (!Character.isDigit(lastChar) && lastChar != '.') {
+        return handleNonNumericSuffix(str, lastChar);
+    }
+
+    int pfxLen = detectHexPrefixLength(str);
+    if (pfxLen > 0) {
+        return handleHexNumber(str, pfxLen);
+    }
+
+    String mant;
+    String dec = null;
+    String exp = null;
+    final int decPos = str.indexOf('.');
+    final int expPos = str.indexOf('e') + str.indexOf('E') + 1;
+    int numDecimals = 0;
+    boolean allZeros = false;
+
+    if (decPos > -1) {
+        dec = extractDecimalFromNumberString(str, decPos, expPos);
+        mant = str.substring(0, decPos);
+        numDecimals = dec.length();
+        allZeros = isAllZeros(mant) && isAllZeros(exp);
+    } else if (expPos > -1) {
+        mant = str.substring(0, expPos);
+    } else {
+        mant = str;
+    }
+
+    Float f = null;
+    Double d = null;
+
+    if (numDecimals <= 7) {
+        f = createFloat(str);
+    }
+
+    if (f == null && numDecimals <= 16) {
+        d = createDouble(str);
+    }
+
+    if (f != null && !(f.isInfinite() || (f.floatValue() == 0.0F && !allZeros))) {
+        return f;
+    }
+
+    if (d != null && !(d.isInfinite() || (d.doubleValue() == 0.0D && !allZeros))) {
+        return d;
+    }
+
+    return createBigDecimal(str);
+}
+
+private static Number handleNonNumericSuffix(final String str, final char lastChar) {
+    final String numeric = str.substring(0, str.length() - 1);     
+    final boolean allZeros = isAllZeros(numeric.substring(0, numeric.length() - 1));
+    
+    switch (lastChar) {
+        case 'l':
+        case 'L':
+            if (isDigits(numeric)) {
+                try {
+                    return createLong(numeric);
+                } catch (final NumberFormatException ignored) {
+                    // Too big for a long
+                }
+                return createBigInteger(numeric);
+            }
+            throw new NumberFormatException(str + " is not a valid number.");
+       
+        case 'f':
+        case 'F':
+            try {
+                final Float f = createFloat(numeric);
+                if (!(f.isInfinite() || (f.floatValue() == 0.0F && !allZeros))) {
+                    return f;
+                }
+            } catch (final NumberFormatException ignored) {
+                // ignore the bad number
+            }
+            //$FALL-THROUGH$
+        case 'd':
+        case 'D':
+            try {
+                final Double d = createDouble(numeric);
+                if (!(d.isInfinite() || (d.floatValue() == 0.0D && !allZeros))) {
+                    return d;
+                }
+            } catch (final NumberFormatException ignored) {
+                // ignore the bad number
+            }
+            try {
+                return createBigDecimal(numeric);
+            } catch (final NumberFormatException ignored) {
+                // ignore the bad number
+            }
+            //$FALL-THROUGH$
+        default:
+            throw new NumberFormatException(str + " is not a valid number.");
+    }
+}
+
+private static int detectHexPrefixLength(final String str) {
+    final String[] hexPrefixes = { "0x", "0X", "-0x", "-0X", "#", "-#" };
+
+    for (final String pfx : hexPrefixes) {
+        if (str.startsWith(pfx)) {
+            return pfx.length();
+        }
+    }
+    return 0;
+}
+
+private static Number handleHexNumber(final String str, final int prefixLength) {
+    final int hexDigits = str.length() - prefixLength;
+
+    if (hexDigits > 16) {
+        return createBigInteger(str);
+    }
+    if (hexDigits > 8) {
+        return createLong(str);
+    }
+    return createInteger(str);
+}
+
+private static String extractDecimalFromNumberString(final String str, final int decPos, final int expPos) {
+    if (expPos > -1) {
+        if (expPos < decPos || expPos > str.length()) {
+            throw new NumberFormatException(str + " is not a valid number.");
+        }
+        return str.substring(decPos + 1, expPos);
+    } else {
+        return str.substring(decPos + 1);
+    }
+}

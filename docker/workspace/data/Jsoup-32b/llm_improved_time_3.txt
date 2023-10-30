@@ -1,0 +1,14 @@
+@Override
+public Element clone() {
+    Element clone = (Element) super.clone();
+    clone.classNames = null;
+    return clone;
+}
+```
+
+Refactored code:
+```java
+@Override
+public Element clone() {
+    return (Element) super.clone();
+}

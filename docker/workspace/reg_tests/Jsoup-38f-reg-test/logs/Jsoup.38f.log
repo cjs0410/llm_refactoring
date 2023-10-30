@@ -1,0 +1,26 @@
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-08-18 00:55:17  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Jsoup
+ -v 38f
+ -n 1
+ -b 10
+ -c /defects4j/framework/projects/Jsoup/modified_classes/38.src
+ -s 1038
+Created test suite archive: Jsoup-38f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/Jsoup-38f-reg-test/Jsoup/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-08-18 00:55:28  ######
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 17:00:02  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Jsoup
+ -v 38f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/Jsoup/modified_classes/38.src
+ -s 1038
+Created test suite archive: Jsoup-38f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/Jsoup-38f-reg-test/Jsoup/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 17:01:38  ######

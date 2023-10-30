@@ -1,0 +1,19 @@
+public String absUrl(String attributeKey) {
+    Validate.notEmpty(attributeKey);
+
+    String relUrl = attr(attributeKey);
+    if (!hasAttr(attributeKey)) {
+        return ""; // nothing to make absolute with
+    } else {
+        try {
+            if (relUrl.startsWith("?")) {
+                URL abs = new URL(new URL(baseUri).getProtocol(), new URL(baseUri).getHost(), new URL(baseUri).getPort(), new URL(baseUri).getPath() + relUrl);
+                return abs.toExternalForm();
+            }
+            URL abs = new URL(baseUri, relUrl);
+            return abs.toExternalForm();
+        } catch (MalformedURLException e) {
+            return "";
+        }
+    }
+}

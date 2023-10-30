@@ -1,0 +1,4 @@
+    public String generateToolTipFragment(String toolTipText) {
+        String escapedToolTipText = ImageMapUtilities.htmlEscape(toolTipText);
+        return " title=\"" + escapedToolTipText + "\" alt=\"\"";
+    }

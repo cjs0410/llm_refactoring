@@ -1,0 +1,32 @@
+public String absUrl(String attributeKey) {
+    Validate.notEmpty(attributeKey);
+
+    String relUrl = attr(attributeKey);
+    if (!hasAttr(attributeKey)) {
+        return ""; // nothing to make absolute with
+    } else {
+        URL base;
+        try {
+            base = new URL(baseUri);
+        } catch (MalformedURLException e) {
+            // the base is unsuitable, but the attribute may be abs on its own, so try that
+            URL abs;
+            try {
+                abs = new URL(relUrl);
+                return abs.toExternalForm();
+            } catch (MalformedURLException ex) {
+                return "";
+            }
+        }
+        if (relUrl.startsWith("?")) {
+            relUrl = base.getPath() + relUrl;
+        }
+        URL abs;
+        try {
+            abs = new URL(base, relUrl);
+            return abs.toExternalForm();
+        } catch (MalformedURLException ex) {
+            return "";
+        }
+    }
+}

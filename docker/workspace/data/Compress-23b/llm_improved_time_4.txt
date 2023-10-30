@@ -1,0 +1,13 @@
+@Override
+InputStream decode(final InputStream in, final Coder coder, byte[] password) throws IOException {
+    byte propsByte = coder.properties[0];
+    long dictSize = coder.properties[1] & 0xffl;
+    dictSize |= (coder.properties[2] & 0xffl) << 8;
+    dictSize |= (coder.properties[3] & 0xffl) << 16;
+    dictSize |= (coder.properties[4] & 0xffl) << 24;
+
+    if (dictSize > LZMAInputStream.DICT_SIZE_MAX) {
+        throw new IOException("Dictionary larger than 4GiB maximum size");
+    }
+    return new LZMAInputStream(in, -1, propsByte, (int) dictSize);
+}

@@ -1,0 +1,12 @@
+    /**
+     * Returns a copy of the header map that iterates in column order.
+     * This method returns null if the header map is null.
+     * 
+     * @return a copy of the header map that iterates in column order, or null if the header map is null.
+     */
+    public Map<String, Integer> getHeaderMap() {
+        if (this.headerMap == null) {
+            return null;
+        }
+        return new LinkedHashMap<>(this.headerMap);
+    }

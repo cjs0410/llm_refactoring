@@ -1,0 +1,25 @@
+int readEscape() throws IOException {
+    final int c = in.read();
+    switch (c) {
+        case 'r':
+        case 'n':
+        case 't':
+        case 'b':
+        case 'f':
+        case CR:
+        case LF:
+        case FF:
+        case TAB:
+        case BACKSPACE:
+            return c;
+        
+        case END_OF_STREAM:
+            throw new IOException("EOF whilst processing escape sequence");
+        
+        default:
+            if (isDelimiter(c) || isEscape(c) || isQuoteChar(c) || isCommentStart(c)) {
+                return c;
+            }
+            return END_OF_STREAM;
+    }
+}

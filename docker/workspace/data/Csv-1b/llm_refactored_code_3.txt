@@ -1,0 +1,10 @@
+@Override
+public int read() throws IOException {
+    int current = super.read();
+    boolean isNewLine = (current == '\n' && lastChar != '\r');
+    if (current == '\r' || isNewLine) {
+        lineCounter++;
+    }
+    lastChar = current;
+    return lastChar;
+}

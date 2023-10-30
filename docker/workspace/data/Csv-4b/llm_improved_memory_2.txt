@@ -1,0 +1,7 @@
+    public Map<String, Integer> getHeaderMap() {
+        if (this.headerMap == null) {
+            return null;
+        } else {
+            return Collections.unmodifiableMap(this.headerMap);
+        }
+    }

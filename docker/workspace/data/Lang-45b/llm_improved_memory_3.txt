@@ -1,0 +1,26 @@
+public static String abbreviate(String str, int lower, int upper, String appendToEnd) {
+    if (str == null) {
+        return null;
+    }
+    if (str.length() == 0) {
+        return StringUtils.EMPTY;
+    }
+
+    int length = str.length();
+    lower = Math.min(lower, length);
+    upper = (upper == -1 || upper > length) ? length : upper;
+    upper = Math.max(upper, lower);
+
+    StringBuffer result = new StringBuffer();
+    int index = StringUtils.indexOf(str, " ", lower);
+
+    if (index == -1 || index > upper) {
+        result.append(str.substring(0, upper));
+        result.append(StringUtils.defaultString(appendToEnd));
+    } else {
+        result.append(str.substring(0, index));
+        result.append(StringUtils.defaultString(appendToEnd));
+    }
+    
+    return result.toString();
+}

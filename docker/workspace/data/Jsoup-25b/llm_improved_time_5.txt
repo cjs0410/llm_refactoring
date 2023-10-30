@@ -1,0 +1,9 @@
+    private static final String[] formatAsInlineTags = {
+            "a", "p", "h1", "h2", "h3", "h4", "h5", "h6", "address", "li", "th", "td", "script", "style"
+    };
+    private static final String[] preserveWhitespaceTags = {"pre", "plaintext", "title", "textarea"};
+
+    static {
+        preserveWhitespaceTags = Arrays.copyOf(preserveWhitespaceTags, preserveWhitespaceTags.length + 1);
+        preserveWhitespaceTags[preserveWhitespaceTags.length - 1] = "textarea";
+    }

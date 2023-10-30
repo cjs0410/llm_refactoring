@@ -1,0 +1,52 @@
+The developer patch looks like: 
+```diff
+diff --git a/src/java/org/apache/commons/cli/Util.java b/src/java/org/apache/commons/cli/Util.java
+index bceee25..40f66f1 100644
+--- a/src/java/org/apache/commons/cli/Util.java
++++ b/src/java/org/apache/commons/cli/Util.java
+@@ -62,10 +62,14 @@ class Util
+      */
+     static String stripLeadingAndTrailingQuotes(String str)
+     {
+-        if (str.startsWith("\""))
+-        {
+-            str = str.substring(1, str.length());
+-        }
+         int length = str.length();
+-        if (str.endsWith("\""))
++        if (length > 1 && str.startsWith("\"") && str.endsWith("\"") && str.substring(1, length - 1).indexOf('"') == -1)
+         {
+-            str = str.substring(0, length - 1);
++            str = str.substring(1, length - 1);
+         }
+         
+         return str;
+```
+
+The pre-patched(buggy) version's code before applying patch looks like: 
+```java
+63    static String stripLeadingAndTrailingQuotes(String str)
+64    {
+65        if (str.startsWith("\""))
+66        {
+67            str = str.substring(1, str.length());
+68        }
+69        int length = str.length();
+70        if (str.endsWith("\""))
+71        {
+72            str = str.substring(0, length - 1);
+73        }
+74        
+75        return str;
+```
+
+The template of patch looks like: 
+```diff
+diff --git a/src/java/org/apache/commons/cli/Util.java b/src/java/org/apache/commons/cli/Util.java
+index bceee25..40f66f1 100644
+--- a/src/java/org/apache/commons/cli/Util.java
++++ b/src/java/org/apache/commons/cli/Util.java
+@@ -62,10 +62,14 @@ class Util
+<INFILL>
+```
+Provide refactored patch by filling the template. Your patch should be a patch from the pre-patched(buggy) version. Start by calling the 'get_failing_test' function.

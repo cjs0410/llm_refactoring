@@ -1,0 +1,6 @@
+public Attribute(String key, String val, Attributes parent) {
+    this.key = key.trim();
+    Validate.notEmpty(this.key, "Attribute key must not be empty");
+    this.val = val;
+    this.parent = parent;
+}

@@ -1,0 +1,12 @@
+    public String setValue(String val) {
+        String oldVal = this.val;
+        if (parent != null) {
+            int i = parent.indexOfKey(this.key);
+            if (i != Attributes.NotFound) {
+                parent.vals[i] = val;
+                oldVal = parent.get(this.key); // trust the container more
+            }
+        }
+        this.val = val;
+        return oldVal;
+    }

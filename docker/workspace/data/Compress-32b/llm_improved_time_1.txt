@@ -1,0 +1,56 @@
+private void applyPaxHeadersToCurrentEntry(Map<String, String> headers) {
+    /*
+     * The following headers are defined for Pax.
+     * atime, ctime, charset: cannot use these without changing TarArchiveEntry fields
+     * mtime
+     * comment
+     * gid, gname
+     * linkpath
+     * size
+     * uid, uname
+     * SCHILY.devminor, SCHILY.devmajor: don't have setters/getters for those
+     */
+    for (Entry<String, String> ent : headers.entrySet()) {
+        String key = ent.getKey();
+        String val = ent.getValue();
+
+        switch (key) {
+            case "path":
+                currEntry.setName(val);
+                break;
+            case "linkpath":
+                currEntry.setLinkName(val);
+                break;
+            case "gid":
+            case "uid":
+                long longVal = Long.parseLong(val);
+                if ("gid".equals(key)) {
+                    currEntry.setGroupId(longVal);
+                } else {
+                    currEntry.setUserId(longVal);
+                }
+                break;
+            case "gname":
+                currEntry.setGroupName(val);
+                break;
+            case "uname":
+                currEntry.setUserName(val);
+                break;
+            case "size":
+                currEntry.setSize(Long.parseLong(val));
+                break;
+            case "mtime":
+                currEntry.setModTime((long) (Double.parseDouble(val) * 1000));
+                break;
+            case "SCHILY.devminor":
+                currEntry.setDevMinor(Integer.parseInt(val));
+                break;
+            case "SCHILY.devmajor":
+                currEntry.setDevMajor(Integer.parseInt(val));
+                break;
+            default:
+                // Handle other headers
+                break;
+        }
+    }
+}

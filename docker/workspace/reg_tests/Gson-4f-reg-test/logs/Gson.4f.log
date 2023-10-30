@@ -1,0 +1,13 @@
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 11:12:32  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Gson
+ -v 4f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/Gson/modified_classes/4.src
+ -s 1004
+Created test suite archive: Gson-4f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/Gson-4f-reg-test/Gson/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 11:14:30  ######

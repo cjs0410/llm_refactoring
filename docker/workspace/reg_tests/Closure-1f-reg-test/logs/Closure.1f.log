@@ -1,0 +1,26 @@
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-08-17 21:51:17  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Closure
+ -v 1f
+ -n 1
+ -b 10
+ -c /defects4j/framework/projects/Closure/modified_classes/1.src
+ -s 1001
+Created test suite archive: Closure-1f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/Closure-1f-reg-test/Closure/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-08-17 21:51:31  ######
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 03:23:38  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Closure
+ -v 1f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/Closure/modified_classes/1.src
+ -s 1001
+Created test suite archive: Closure-1f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/Closure-1f-reg-test/Closure/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 03:25:26  ######

@@ -1,0 +1,6 @@
+public ChecksumCalculatingInputStream(final Checksum checksum, final InputStream in) {
+    Objects.requireNonNull(checksum, "Parameter checksum must not be null");
+    Objects.requireNonNull(in, "Parameter in must not be null");
+    this.checksum = checksum;
+    this.in = in;
+}

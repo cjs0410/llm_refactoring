@@ -1,0 +1,22 @@
+public boolean hasAttr(String attributeKey) {
+    Validate.notNull(attributeKey);
+
+    if (isAbsoluteAttributeKey(attributeKey)) {
+        String key = getAttributeKeyWithoutAbsPrefix(attributeKey);
+        return hasAttributeValue(key) && !absUrl(key).isEmpty();
+    }
+    
+    return attributes.hasKey(attributeKey);
+}
+
+private boolean isAbsoluteAttributeKey(String attributeKey) {
+    return attributeKey.toLowerCase().startsWith("abs:");
+}
+
+private String getAttributeKeyWithoutAbsPrefix(String attributeKey) {
+    return attributeKey.substring("abs:".length());
+}
+
+private boolean hasAttributeValue(String attributeKey) {
+    return attributes.hasKey(attributeKey);
+}

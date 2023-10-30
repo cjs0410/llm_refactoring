@@ -1,0 +1,21 @@
+boolean anyOtherEndTag(Token t, HtmlTreeBuilder tb) {
+    String name = t.asEndTag().name(); // matches with case sensitivity if enabled
+    ArrayList<Element> stack = tb.getStack();
+    ListIterator<Element> iter = stack.listIterator(stack.size());
+    while (iter.hasPrevious()) {
+        Element node = iter.previous();
+        if (node.nodeName().equals(name)) {
+            tb.generateImpliedEndTags(name);
+            if (!name.equals(tb.currentElement().nodeName()))
+                tb.error(this);
+            tb.popStackToClose(name);
+            return true;
+        } else {
+            if (tb.isSpecial(node)) {
+                tb.error(this);
+                return false;
+            }
+        }
+    }
+    return true;
+}

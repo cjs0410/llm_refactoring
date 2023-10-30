@@ -1,0 +1,8 @@
+public Week(Date time, TimeZone zone) {
+    this(time, zone, null);
+}
+
+public Week(Date time, TimeZone zone, Locale locale) {
+    // defer argument checking...
+    super(time, zone, locale != null ? locale : Locale.getDefault());
+}

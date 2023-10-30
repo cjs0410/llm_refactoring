@@ -1,0 +1,28 @@
+public int indexOf(String str, int startIndex) {
+    startIndex = (startIndex < 0 ? 0 : startIndex);
+
+    if (str == null || startIndex >= size) {
+        return -1;
+    }
+
+    int strLen = str.length();
+    if (strLen == 0) {
+        return startIndex;
+    }
+
+    char[] thisBuf = buffer;
+    int len = size - strLen + 1;
+
+    outerLoop:
+    for (int i = startIndex; i < len; i++) {
+        for (int j = 0; j < strLen; j++) {
+            if (thisBuf[i + j] != str.charAt(j)) {
+                continue outerLoop; // Continue to the next iteration of the outer loop
+            }
+        }
+        // Found a match
+        return i;
+    }
+
+    return -1;
+}

@@ -1,0 +1,12 @@
+protected void addChildren(int index, Node... children) {
+    Validate.noNullElements(children);
+    ensureChildNodes();
+    
+    for (Node child : children) {
+        reparentChild(child);
+        childNodes.add(index, child);
+        index++;
+    }
+    
+    reindexChildren(index - children.length);
+}

@@ -1,0 +1,10 @@
+public String html() {
+    OutputSettings outputSettings = getOutputSettings();
+    if (!outputSettings.prettyPrint()) {
+        return outerHtml();
+    }
+
+    StringBuilder accum = new StringBuilder();
+    html(accum);
+    return accum.toString().trim();
+}

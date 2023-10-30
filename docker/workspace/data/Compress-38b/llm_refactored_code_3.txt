@@ -1,0 +1,12 @@
+@Override
+public boolean isDirectory() {
+    if (file != null) {
+        return file.isDirectory();
+    }
+    
+    return isDirectoryEntry();
+}
+
+private boolean isDirectoryEntry() {
+    return linkFlag == LF_DIR || !isPaxHeader() && !isGlobalPaxHeader() && getName().endsWith("/");
+}

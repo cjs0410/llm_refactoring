@@ -1,0 +1,11 @@
+public XmlDeclaration asXmlDeclaration() {
+    String data = getData();
+    if (data.length() >= 4 && data.startsWith("<!--") && data.endsWith("-->")) {
+        String tagName = data.substring(4, data.length() - 3);
+        XmlDeclaration decl = new XmlDeclaration(NodeUtils.parser(this).settings().normalizeTag(tagName), data.startsWith("<!--!"));
+        decl.attributes().addAll(attributes());
+        return decl;
+    } else {
+        return null;
+    }
+}

@@ -1,0 +1,10 @@
+    /**
+     * Print the current record and terminate the line. 
+     * @throws IOException if an I/O error occurs
+     */
+    public void println() throws IOException {
+        if (format.getRecordSeparator() != null) {
+            out.append(format.getRecordSeparator());
+        }
+        newRecord = true;
+    }

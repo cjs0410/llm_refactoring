@@ -1,0 +1,24 @@
+public static boolean containsAny(CharSequence cs, char[] searchChars) {
+	if (isEmpty(cs) || ArrayUtils.isEmpty(searchChars)) {
+		return false;
+	}
+	int csLength = cs.length();
+	int searchLength = searchChars.length;
+	int csLastIndex = csLength - 1;
+	int searchLastIndex = searchLength - 1;
+	for (int i = 0; i < csLength; i++) {
+		char ch = cs.charAt(i);
+		if (ch >= Character.MIN_HIGH_SURROGATE && ch <= Character.MAX_HIGH_SURROGATE) {
+			if (i < csLastIndex && searchLength > 1 && searchChars[0] == ch && searchChars[1] == cs.charAt(i + 1)) {
+				return true; // ch is a supplementary character and forms a complete supplementary character
+			}
+		} else {
+			for (int j = 0; j < searchLength; j++) {
+				if (searchChars[j] == ch) {
+					return true; // ch is in the Basic Multilingual Plane
+				}
+			}
+		}
+	}
+	return false;
+}

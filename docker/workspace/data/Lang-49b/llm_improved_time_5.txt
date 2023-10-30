@@ -1,0 +1,17 @@
+/**
+ * Reduces the fraction to its simplest form.
+ *
+ * @return a new reduced fraction instance, or this if no simplification is possible
+ */
+public Fraction reduce() {
+    if (numerator == 0) {
+        return equals(ZERO) ? this : ZERO;
+    }
+    int gcd = greatestCommonDivisor(Math.abs(numerator), denominator);
+    if (gcd == 1) {
+        return this;
+    }
+    int newNumerator = numerator / gcd;
+    int newDenominator = denominator / gcd;
+    return new Fraction(newNumerator, newDenominator);
+}

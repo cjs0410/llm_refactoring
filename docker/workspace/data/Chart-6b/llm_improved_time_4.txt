@@ -1,0 +1,18 @@
+public boolean equals(Object obj) {
+    if (this == obj) {
+        return true;
+    }
+    if (!(obj instanceof ShapeList)) {
+        return false;
+    }
+    ShapeList that = (ShapeList) obj;
+    if (size() != that.size()) {
+        return false;
+    }
+    for (int i = 0; i < size(); i++) {
+        if (!ShapeUtilities.equal((Shape) get(i), (Shape) that.get(i))) {
+           return false;
+        }
+    }
+    return true;
+}

@@ -1,0 +1,7 @@
+public DocumentType(String name, String publicId, String systemId, String baseUri) {
+    super(baseUri);
+
+    this.attributes.put("name", name);
+    this.attributes.put("publicId", publicId);
+    this.attributes.put("systemId", systemId);
+}

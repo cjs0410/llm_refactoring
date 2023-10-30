@@ -1,0 +1,28 @@
+public int indexOf(String str, int startIndex) {
+    startIndex = Math.max(0, startIndex);
+    if (str == null || startIndex >= size) {
+        return -1;
+    }
+    int strLen = str.length();
+    if (strLen > size) {
+        return -1;
+    }
+    if (strLen == 0) {
+        return startIndex;
+    }
+    int len = size - strLen + 1;
+    for (int i = startIndex; i < len; i++) {
+        if (buffer[i] == str.charAt(0)) {
+            int j;
+            for (j = 1; j < strLen; j++) {
+                if (buffer[i + j] != str.charAt(j)) {
+                    break;
+                }
+            }
+            if (j == strLen) {
+                return i;
+            }
+        }
+    }
+    return -1;
+}

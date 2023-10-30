@@ -1,0 +1,13 @@
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 02:59:32  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Cli
+ -v 25f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/Cli/modified_classes/25.src
+ -s 1025
+Created test suite archive: Cli-25f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/Cli-25f-reg-test/Cli/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 03:02:40  ######

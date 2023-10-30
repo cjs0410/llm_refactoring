@@ -1,0 +1,7 @@
+    private static final String nullString = "\u0000";
+
+    abstract boolean process(Token t, TreeBuilder tb);
+
+    public static void main(String[] args) {
+        // Original code here
+    }

@@ -1,0 +1,7 @@
+    @Override
+    protected void removeChild(Node out) {
+        super.removeChild(out);
+        if (out instanceof Element) {
+            elements.remove(out);
+        }
+    }

@@ -1,0 +1,26 @@
+void read(Tokeniser t, CharacterReader r) {
+    char c = r.consume();
+    switch (c) {
+        case '>':
+            t.tagPending.selfClosing = true;
+            t.emitTagPending();
+            t.transition(Data);
+            break;
+        case eof:
+            t.eofError(this);
+            t.transition(Data);
+            break;
+        default:
+            if (isWhitespace(c)) {
+                t.transition(AfterAttributeName);
+            } else if (c == '/') {
+                t.transition(SelfClosingStartTag);
+            } else if (c == '=') {
+                t.transition(BeforeAttributeValue);
+            } else {
+                t.error(this);
+                r.unconsume();
+                t.transition(BeforeAttributeName);
+            }
+    }
+}

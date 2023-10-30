@@ -1,0 +1,13 @@
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 09:08:33  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Codec
+ -v 5f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/Codec/modified_classes/5.src
+ -s 1005
+Created test suite archive: Codec-5f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/Codec-5f-reg-test/Codec/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 09:10:10  ######

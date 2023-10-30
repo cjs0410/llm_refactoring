@@ -1,0 +1,12 @@
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 11:19:50  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Gson
+ -v 8f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/Gson/modified_classes/8.src
+ -s 1008
+Test generator (evosuite) did not generate any tests!
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 11:21:24  ######

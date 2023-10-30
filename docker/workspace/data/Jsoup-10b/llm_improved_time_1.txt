@@ -1,0 +1,23 @@
+public String absUrl(String attributeKey) {
+    Validate.notEmpty(attributeKey);
+
+    String relUrl = attr(attributeKey);
+    if (!hasAttr(attributeKey)) {
+        return ""; // nothing to make absolute with
+    } else {
+        try {
+            URL base = new URL(baseUri);
+
+            if (relUrl.startsWith("?")) {
+                int queryIndex = base.getFile().lastIndexOf('?');
+                String basePath = (queryIndex != -1) ? base.getFile().substring(0, queryIndex) : base.getFile();
+                relUrl = basePath + relUrl;
+            }
+
+            URL abs = new URL(base, relUrl);
+            return abs.toExternalForm();
+        } catch (MalformedURLException e) {
+            return "";
+        }
+    }
+}

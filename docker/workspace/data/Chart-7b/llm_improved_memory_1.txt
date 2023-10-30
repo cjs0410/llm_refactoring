@@ -1,0 +1,36 @@
+private void updateBounds(TimePeriod period, int index) {
+    long start = period.getStart().getTime();
+    long end = period.getEnd().getTime();
+    long middle = start + ((end - start) / 2);
+
+    updateIndex(this.minStartIndex, start, index, true);
+    updateIndex(this.maxStartIndex, start, index, false);
+    updateMiddleIndex(this.minMiddleIndex, middle, index, true);
+    updateMiddleIndex(this.maxMiddleIndex, middle, index, false);
+    updateIndex(this.minEndIndex, end, index, true);
+    updateIndex(this.maxEndIndex, end, index, false);
+}
+
+private void updateIndex(int currentIndex, long value, int index, boolean isMin) {
+    if (currentIndex >= 0) {
+        long currentValue = getDataItem(currentIndex).getPeriod().get(isMin ? Start : End).getTime();
+        if (value < currentValue) {
+            currentIndex = index;
+        }
+    } else {
+        currentIndex = index;
+    }
+}
+
+private void updateMiddleIndex(int currentIndex, long middle, int index, boolean isMin) {
+    if (currentIndex >= 0) {
+        long s = getDataItem(currentIndex).getPeriod().getStart().getTime();
+        long e = getDataItem(currentIndex).getPeriod().getEnd().getTime();
+        long currentMiddle = s + (e - s) / 2;
+        if (middle < currentMiddle) {
+            currentIndex = index;
+        }
+    } else {
+        currentIndex = index;
+    }
+}

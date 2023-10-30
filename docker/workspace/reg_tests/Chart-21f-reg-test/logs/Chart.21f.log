@@ -1,0 +1,39 @@
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-08-24 19:33:39  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Chart
+ -v 21f
+ -n 1
+ -b 10
+ -c /defects4j/framework/projects/Chart/modified_classes/21.src
+ -s 1021
+Created test suite archive: Chart-21f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/Chart-21f-reg-test/Chart/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-08-24 19:33:53  ######
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 01:22:20  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Chart
+ -v 21f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/Chart/modified_classes/21.src
+ -s 1021
+Created test suite archive: Chart-21f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/Chart-21f-reg-test/Chart/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 01:24:01  ######
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 02:13:06  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Chart
+ -v 21f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/Chart/modified_classes/21.src
+ -s 1021
+Created test suite archive: Chart-21f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/Chart-21f-reg-test/Chart/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 02:14:46  ######

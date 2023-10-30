@@ -1,0 +1,20 @@
+private boolean testValidProtocol(Element el, Attribute attr, Set<Protocol> protocols) {
+    // Try to resolve relative URLs to absolute, and optionally update the attribute so the output HTML has absolute URLs.
+    // Relative URLs without a base URI are removed.
+    String value = el.absUrl(attr.getKey());
+    if (value.length() == 0) {
+        // If the URL couldn't be made absolute, use the original URL to allow custom unknown protocols
+        value = attr.getValue();
+    }
+    if (!preserveRelativeLinks) {
+        attr.setValue(value);
+    }
+    
+    for (Protocol protocol : protocols) {
+        String prot = protocol.toString() + ":";
+        if (value.toLowerCase().startsWith(prot)) {
+            return true;
+        }
+    }
+    return false;
+}

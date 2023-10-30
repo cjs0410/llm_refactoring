@@ -1,0 +1,34 @@
+    private static final Map<Character, String> xhtmlByVal;
+    private static final Map<Character, String> baseByVal;
+    private static final Map<Character, String> fullByVal;
+    private static final Pattern unescapePattern = Pattern.compile("&(#(x|X)?([0-9a-fA-F]+)|[a-zA-Z]+\\d*);?");
+
+    static String escape(String string, Document.OutputSettings out) {
+        StringBuilder escaped = new StringBuilder(string.length() + 64);
+        int offset = 0;
+
+        while (offset < string.length()) {
+            Matcher matcher = unescapePattern.matcher(string);
+            if (matcher.find(offset)) {
+                escaped.append(string, offset, matcher.start());
+                String match = matcher.group();
+                if (match.charAt(1) == '#') {
+                    boolean isHex = match.charAt(2) == 'x' || match.charAt(2) == 'X';
+                    char c = (char) (isHex ? Integer.parseInt(match.substring(3, match.length() - 1), 16) : Integer.parseInt(match.substring(2, match.length() - 1)));
+                    escaped.append(c);
+                } else {
+                    String codeName = match.substring(1, match.length() - 1);
+                    if (xhtmlByVal.containsKey(codeName.charAt(0))) {
+                        escaped.append(xhtmlByVal.get(codeName.charAt(0)));
+                    } else {
+                        escaped.append(match);
+                    }
+                }
+                offset = matcher.end();
+            } else {
+                escaped.append(string, offset, string.length());
+                break;
+            }
+        }
+        return escaped.toString();
+    }

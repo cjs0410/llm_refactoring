@@ -1,0 +1,26 @@
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-08-24 22:10:26  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Csv
+ -v 2f
+ -n 1
+ -b 10
+ -c /defects4j/framework/projects/Csv/modified_classes/2.src
+ -s 1002
+Created test suite archive: Csv-2f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/Csv-2f-reg-test/Csv/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-08-24 22:10:31  ######
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 10:44:34  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Csv
+ -v 2f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/Csv/modified_classes/2.src
+ -s 1002
+Created test suite archive: Csv-2f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/Csv-2f-reg-test/Csv/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 10:44:39  ######

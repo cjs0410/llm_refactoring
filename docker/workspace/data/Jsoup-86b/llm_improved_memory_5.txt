@@ -1,0 +1,21 @@
+public XmlDeclaration asXmlDeclaration() {
+    String data = getData();
+    XmlDeclaration decl = null;
+
+    if (data.length() > 2) {
+        String innerData = data.substring(1, data.length() -1);
+        Document doc = new Document("");
+        doc.html("<" + innerData + ">");
+        Elements children = doc.children();
+
+        if (!children.isEmpty()) {
+            Element el = children.first();
+            String tagName = NodeUtils.parser(doc).settings().normalizeTag(el.tagName());
+            boolean isXmlDeclaration = data.startsWith("!");
+            decl = new XmlDeclaration(tagName, isXmlDeclaration);
+            decl.attributes().addAll(el.attributes());
+        }
+    }
+
+    return decl;
+}

@@ -1,0 +1,5 @@
+static String escape(String string, Document.OutputSettings out) {
+    // TODO: Implement the logic for escaping the string
+    // ...
+    return escapedString;
+}

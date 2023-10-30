@@ -1,0 +1,42 @@
+public TimeSeries createCopy(int start, int end)
+        throws CloneNotSupportedException {
+    if (start < 0) {
+        throw new IllegalArgumentException("Requires start >= 0.");
+    }
+    if (end < start) {
+        throw new IllegalArgumentException("Requires start <= end.");
+    }
+    int size = end - start + 1;
+    TimeSeries copy = new TimeSeries(this.getKey());
+    copy.setDescription(this.getDescription());
+    copy.setDomainDescription(this.getDomainDescription());
+    copy.setRangeDescription(this.getRangeDescription());
+    copy.setDomainAxis(this.getDomainAxis());
+    copy.setRangeAxis(this.getRangeAxis());
+    // Calculate minY and maxY
+    double minY = Double.POSITIVE_INFINITY;
+    double maxY = Double.NEGATIVE_INFINITY;
+    for (int index = start; index <= end; index++) {
+        TimeSeriesDataItem item = (TimeSeriesDataItem) this.data.get(index);
+        double y = item.getValue().doubleValue();
+        if (!Double.isNaN(y)) {
+            if (y < minY) {
+                minY = y;
+            }
+            if (y > maxY) {
+                maxY = y;
+            }
+        }
+    }
+    copy.minY = minY;
+    copy.maxY = maxY;
+    copy.data = new ArrayList<>(size);
+    if (size > 0) {
+        for (int index = start; index <= end; index++) {
+            TimeSeriesDataItem item = (TimeSeriesDataItem) this.data.get(index);
+            TimeSeriesDataItem clone = (TimeSeriesDataItem) item.clone();
+            copy.data.add(clone);
+        }
+    }
+    return copy;
+}

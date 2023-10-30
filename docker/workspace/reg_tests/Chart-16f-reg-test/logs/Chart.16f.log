@@ -1,0 +1,26 @@
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 01:09:09  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Chart
+ -v 16f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/Chart/modified_classes/16.src
+ -s 1016
+Created test suite archive: Chart-16f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/Chart-16f-reg-test/Chart/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 01:10:48  ######
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 02:03:44  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Chart
+ -v 16f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/Chart/modified_classes/16.src
+ -s 1016
+Created test suite archive: Chart-16f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/Chart-16f-reg-test/Chart/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 02:05:23  ######

@@ -1,0 +1,21 @@
+enum TreeBuilderState {
+    // other states
+
+    CHARACTER_REFERENCE_IN_RCDATA {
+        @Override
+        boolean process(Token t, TreeBuilder tb) {
+            // process method implementation
+        }
+    },
+
+    CHARACTER_REFERENCE_IN_TEXT {
+        @Override
+        boolean process(Token t, TreeBuilder tb) {
+            // process method implementation
+        }
+    };
+
+    private static final String nullString = "\u0000";
+
+    abstract boolean process(Token t, TreeBuilder tb);
+}

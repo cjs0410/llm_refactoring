@@ -1,0 +1,2 @@
+public static final CSVFormat EXCEL = DEFAULT.withIgnoreEmptyLines(false)
+                                              .withAllowMissingColumnNames(true);

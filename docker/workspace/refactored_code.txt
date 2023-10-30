@@ -1,0 +1,16 @@
+The refactored code based on the summary of the patch and fixed code would look like:
+
+```java
+    /**
+     * Returns a new instance with reversed direction.
+     *
+     * @return a new instance, with reversed direction
+     */
+    public Line revert() {
+        Line reverted = new Line(this);
+        reverted.direction = reverted.direction.negate();
+        return reverted;
+    }
+```
+
+In the refactored code, the unnecessary variable assignment to `zero` and subtracting `direction` has been removed. Instead, the `Line` object is directly initialized with `this` and then the `direction` is negated. The resulting `Line` object is returned.

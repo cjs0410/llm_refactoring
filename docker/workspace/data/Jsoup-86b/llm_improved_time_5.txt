@@ -1,0 +1,10 @@
+public XmlDeclaration asXmlDeclaration() {
+    String data = getData();
+    XmlDeclaration decl = null;
+    if (data.length() > 2) {
+        String tag = data.substring(1, data.length() - 1);
+        decl = new XmlDeclaration(NodeUtils.parser(this).settings().normalizeTag(tag), data.startsWith("!"));
+        decl.attributes().addAll(attributes());
+    }
+    return decl;
+}

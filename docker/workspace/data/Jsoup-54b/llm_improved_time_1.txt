@@ -1,0 +1,18 @@
+private void copyAttributes(org.jsoup.nodes.Node source, Element el) {
+    for (Attribute attribute : source.attributes()) {
+        String key = attribute.getKey();
+        boolean isValid = true;
+
+        for (int i = 0; i < key.length(); i++) {
+            char ch = key.charAt(i);
+            if (!Character.isLetter(ch) && ch != '_' && ch != ':' && ch != '-' && ch != '.') {
+                isValid = false;
+                break;
+            }
+        }
+
+        if (isValid) {
+            el.setAttribute(key, attribute.getValue());
+        }
+    }
+}

@@ -1,0 +1,6 @@
+public Paint getPaint(double value) {
+    double clampedValue = Math.max(value, getLowerBound());
+    clampedValue = Math.min(clampedValue, getUpperBound());
+    int grayLevel = (int) ((clampedValue - getLowerBound()) / (getUpperBound() - getLowerBound()) * 255.0);
+    return new Color(grayLevel, grayLevel, grayLevel);
+}

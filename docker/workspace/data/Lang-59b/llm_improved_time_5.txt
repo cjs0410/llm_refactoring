@@ -1,0 +1,15 @@
+public StrBuilder appendFixedWidthPadRight(Object obj, int width, char padChar) {
+    if (width > 0) {
+        ensureCapacity(size + width);
+        String str = (obj == null ? getNullText() : obj.toString());
+        int strLen = str.length();
+        int copyLen = Math.min(width, strLen);
+        str.getChars(0, copyLen, buffer, size);
+        if (strLen < width) {
+            int padLen = width - strLen;
+            Arrays.fill(buffer, size + copyLen, size + copyLen + padLen, padChar);
+        }
+        size += width;
+    }
+    return this;
+}

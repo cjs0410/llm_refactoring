@@ -1,0 +1,4 @@
+    abstract boolean process(Token t, TreeBuilder tb);
+    
+    private static final String NULL_STRING = "\u0000";
+}

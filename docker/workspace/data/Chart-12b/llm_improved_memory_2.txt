@@ -1,0 +1,25 @@
+public MultiplePiePlot(CategoryDataset dataset) {
+    super();
+    setDataset(dataset);
+    this.pieChart = createPieChart();
+    this.pieChart.removeLegend();
+    this.dataExtractOrder = TableOrder.BY_COLUMN;
+    this.pieChart.setBackgroundPaint(null);
+    TextTitle seriesTitle = createSeriesTitle();
+    this.pieChart.setTitle(seriesTitle);
+    this.aggregatedItemsKey = "Other";
+    this.aggregatedItemsPaint = Color.lightGray;
+    this.sectionPaints = new HashMap<>();
+}
+
+private JFreeChart createPieChart() {
+    PiePlot piePlot = new PiePlot(null);
+    return new JFreeChart(piePlot);
+}
+
+private TextTitle createSeriesTitle() {
+    Font titleFont = new Font("SansSerif", Font.BOLD, 12);
+    TextTitle seriesTitle = new TextTitle("Series Title", titleFont);
+    seriesTitle.setPosition(RectangleEdge.BOTTOM);
+    return seriesTitle;
+}

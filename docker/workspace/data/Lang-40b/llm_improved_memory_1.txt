@@ -1,0 +1,30 @@
+public static boolean containsIgnoreCase(String str, String searchStr) {
+    if (str == null || searchStr == null) {
+        return false;
+    }
+
+    int len = searchStr.length();
+    int max = str.length() - len;
+
+    for (int i = 0; i <= max; i++) {
+        if (regionMatches(str, i, searchStr, len)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+private static boolean regionMatches(String str, int strStart, String searchStr, int searchLen) {
+    for (int i = 0; i < searchLen; i++) {
+        char c1 = str.charAt(strStart + i);
+        char c2 = searchStr.charAt(i);
+
+        if (Character.toUpperCase(c1) != Character.toUpperCase(c2) 
+                && Character.toLowerCase(c1) != Character.toLowerCase(c2)) {
+            return false;
+        }
+    }
+
+    return true;
+}

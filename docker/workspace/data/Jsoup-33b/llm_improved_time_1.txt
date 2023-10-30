@@ -1,0 +1,22 @@
+Element insert(Token.StartTag startTag) {
+    // handle empty unknown tags
+    // when the spec expects an empty tag, will directly hit insertEmpty, so won't generate this fake end tag.
+    if (startTag.isSelfClosing()) {
+        Element el = insertEmpty(startTag);
+        stack.add(el);
+
+        // Transition tokeniser to Data state only if the tag is not a script tag
+        if (!el.tagName().equalsIgnoreCase("script")) {
+            tokeniser.transition(TokeniserState.Data);
+        }
+
+        // Emit an EndTag token to ensure proper state handling
+        tokeniser.emit(new Token.EndTag(el.tagName()));
+
+        return el;
+    }
+
+    Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);
+    insert(el);
+    return el;
+}

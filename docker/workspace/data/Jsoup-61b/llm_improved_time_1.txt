@@ -1,0 +1,35 @@
+    public boolean hasClass(String className) {
+        final String classAttr = attributes.getIgnoreCase("class");
+        final int len = classAttr.length();
+        final int wantLen = className.length();
+
+        if (len == 0 || wantLen > len)
+            return false;
+
+        if (wantLen == 0)
+            return true;
+
+        int start = 0;
+        boolean inClass = false;
+        
+        for (int i = 0; i < len; i++) {
+            char c = classAttr.charAt(i);
+
+            if (!inClass) {
+                if (!Character.isWhitespace(c)) {
+                    inClass = true;
+                    start = i;
+                }
+            } else {
+                if (Character.isWhitespace(c)) {
+                    inClass = false;
+
+                    if (i - start == wantLen && classAttr.regionMatches(true, start, className, 0, wantLen)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return inClass && len - start == wantLen && classAttr.regionMatches(true, start, className, 0, wantLen);
+    }

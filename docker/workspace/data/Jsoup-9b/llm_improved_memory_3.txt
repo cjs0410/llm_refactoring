@@ -1,0 +1,12 @@
+private static final Map<Character, String> xhtmlByVal = new HashMap<>();
+private static final Map<Character, String> baseByVal = new HashMap<>();
+private static final Map<Character, String> fullByVal = new HashMap<>();
+private static final Pattern unescapePattern = Pattern.compile("&(?:(#(?:x|X)?([0-9a-fA-F]+))|([a-zA-Z]+\\d*));?");
+
+static {
+    // Populate the maps
+}
+
+static String escape(String string, Document.OutputSettings out) {
+    return escape(string, out.encoder(), out.escapeMode());
+}

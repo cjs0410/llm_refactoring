@@ -1,0 +1,14 @@
+public XmlDeclaration asXmlDeclaration() {
+    String data = getData();
+    Document doc = Jsoup.parse("<" + data.substring(1, data.length() - 1) + ">", baseUri(), Parser.xmlParser());
+    XmlDeclaration decl = null;
+    Elements children = doc.children();
+    if (children.size() > 0) {
+        Element el = children.get(0);
+        Settings settings = NodeUtils.parser(doc).settings();
+        String tagName = settings.normalizeTag(el.tagName());
+        decl = new XmlDeclaration(tagName, data.startsWith("!"));
+        decl.attributes().addAll(el.attributes());
+    }
+    return decl;
+}

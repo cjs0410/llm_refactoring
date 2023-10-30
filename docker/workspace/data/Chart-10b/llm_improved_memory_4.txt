@@ -1,0 +1,7 @@
+public String generateToolTipFragment(String toolTipText) {
+    StringBuilder sb = new StringBuilder()
+            .append(" title=\"")
+            .append(ImageMapUtilities.htmlEscape(toolTipText))
+            .append("\" alt=\"\"");
+    return sb.toString();
+}

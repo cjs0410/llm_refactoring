@@ -1,0 +1,74 @@
+private static String replaceEach(String text, String[] searchList, String[] replacementList,
+                                  boolean repeat, int timeToLive) {
+    if (text == null || text.isEmpty() || searchList == null || searchList.length == 0
+            || replacementList == null || replacementList.length == 0) {
+        return text;
+    }
+
+    if (timeToLive < 0) {
+        throw new IllegalStateException("TimeToLive of " + timeToLive + " is less than 0: " + text);
+    }
+
+    int searchLength = searchList.length;
+    int replacementLength = replacementList.length;
+
+    if (searchLength != replacementLength) {
+        throw new IllegalArgumentException("Search and Replace array lengths don't match: "
+                + searchLength + " vs " + replacementLength);
+    }
+
+    boolean[] noMoreMatchesForReplIndex = new boolean[searchLength];
+    int textIndex = -1;
+    int replaceIndex = -1;
+    int tempIndex = -1;
+    int start = 0;
+    int increase = 0;
+
+    StringBuilder buf = new StringBuilder(text.length());
+
+    while (true) {
+        for (int i = start; i < text.length(); i++) {
+            buf.append(text.charAt(i));
+        }
+
+        boolean found = false;
+
+        for (int i = 0; i < searchLength; i++) {
+            if (!noMoreMatchesForReplIndex[i] && searchList[i] != null && replacementList[i] != null) {
+                tempIndex = buf.lastIndexOf(searchList[i]);
+
+                if (tempIndex > textIndex) {
+                    textIndex = tempIndex;
+                    replaceIndex = i;
+                    found = true;
+                }
+            }
+        }
+
+        if (!found) {
+            break;
+        }
+
+        int greater = replacementList[replaceIndex].length() - searchList[replaceIndex].length();
+        increase += Math.max(greater, 0);
+
+        buf.replace(textIndex, textIndex + searchList[replaceIndex].length(), replacementList[replaceIndex]);
+
+        start = textIndex + replacementList[replaceIndex].length();
+
+        if (!repeat) {
+            break;
+        }
+
+        text = buf.toString();
+        buf.setLength(0);
+
+        if (--timeToLive < 0) {
+            throw new IllegalStateException("Infinite loop in replaceEach()");
+        }
+
+        noMoreMatchesForReplIndex[replaceIndex] = true;
+    }
+
+    return buf.toString();
+}

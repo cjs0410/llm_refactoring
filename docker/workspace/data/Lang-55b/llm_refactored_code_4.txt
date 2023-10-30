@@ -1,0 +1,8 @@
+public void stop() {
+    if (runningState == STATE_RUNNING || runningState == STATE_SUSPENDED) {
+        stopTime = System.currentTimeMillis();
+    } else {
+        throw new IllegalStateException("Stopwatch is not running.");
+    }
+    runningState = STATE_STOPPED;
+}

@@ -1,0 +1,7 @@
+public String format(Date date) {
+    Calendar c = new GregorianCalendar(mTimeZone, mLocale);
+    c.setTime(date);
+    StringBuilder result = new StringBuilder(mMaxLengthEstimate);
+    applyRules(c, result);
+    return result.toString();
+}

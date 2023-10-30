@@ -1,0 +1,14 @@
+    public static String parseName(byte[] buffer, final int offset, final int length) {
+        int end = offset + length;
+        int i = offset;
+        byte[] unsignedBuffer = new byte[length]; // Create a buffer to store unsigned bytes
+        int unsignedIndex = 0;
+
+        while (i < end && buffer[i] != 0) {
+            unsignedBuffer[unsignedIndex] = (byte) (buffer[i] & 0xFF); // Store unsigned byte in the buffer
+            i++;
+            unsignedIndex++;
+        }
+
+        return new String(unsignedBuffer, 0, unsignedIndex, Charset.forName("ISO_8859_1"));
+    }

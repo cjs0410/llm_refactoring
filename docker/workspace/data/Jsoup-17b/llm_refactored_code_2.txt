@@ -1,0 +1,7 @@
+enum TreeBuilderState {
+    /* previous code */
+
+    private static String nullString = String.valueOf('\u0000');
+
+    abstract boolean process(Token t, TreeBuilder tb);
+}

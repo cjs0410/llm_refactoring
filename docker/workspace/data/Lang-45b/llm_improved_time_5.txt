@@ -1,0 +1,35 @@
+public static String abbreviate(String str, int lower, int upper, String appendToEnd) {
+    if (str == null) {
+        return null;
+    }
+    if (str.length() == 0) {
+        return StringUtils.EMPTY;
+    }
+    
+    int strLength = str.length();
+    
+    if (lower > strLength) {
+        lower = strLength;
+    }
+    
+    if (upper > strLength) {
+        upper = strLength;
+    }
+    
+    if (upper < lower) {
+        upper = lower;
+    }
+
+    StringBuffer result = new StringBuffer();
+    int index = StringUtils.indexOf(str, " ", lower);
+    
+    if (index == -1 || upper < index) {
+        result.append(str.substring(0, upper));
+    } else {
+        result.append(str.substring(0, index));
+    }
+    
+    result.append(StringUtils.defaultString(appendToEnd));
+
+    return result.toString();
+}

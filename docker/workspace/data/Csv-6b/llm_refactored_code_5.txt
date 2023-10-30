@@ -1,0 +1,18 @@
+    <M extends Map<String, String>> M putIn(final M map) {
+        for (final Entry<String, Integer> entry : mapping.entrySet()) {
+            final int col = entry.getValue().intValue();
+            if (isValidColumn(col)) {
+                final String value = getColumnValue(col);
+                map.put(entry.getKey(), value);
+            }
+        }
+        return map;
+    }
+
+    private boolean isValidColumn(int columnIndex) {
+        return columnIndex < values.length;
+    }
+
+    private String getColumnValue(int columnIndex) {
+        return values[columnIndex];
+    }

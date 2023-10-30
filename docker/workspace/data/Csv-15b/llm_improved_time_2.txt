@@ -1,0 +1,61 @@
+private void printAndQuote(final Object object, final CharSequence value, final int offset, final int len,
+                           final Appendable out, final boolean newRecord) throws IOException {
+    boolean quote = false;
+    int start = offset;
+    int pos = offset;
+    final int end = offset + len;
+
+    final char quoteChar = getQuoteCharacter().charValue();
+
+    if (len <= 0) {
+        // always quote an empty token that is the first
+        // on the line, as it may be the only thing on the
+        // line. If it were not quoted in that case,
+        // an empty line has no tokens.
+        if (newRecord) {
+            quote = true;
+        }
+    } else {
+        char c = value.charAt(pos);
+
+        if (c <= COMMENT) {
+            quote = true;
+        } else {
+            while (pos < end) {
+                c = value.charAt(pos);
+                if (c == LF || c == CR || c == quoteChar || c == getDelimiter()) {
+                    quote = true;
+                    break;
+                }
+                pos++;
+            }
+
+            if (!quote) {
+                pos = end - 1;
+                c = value.charAt(pos);
+                if (c <= SP) {
+                    quote = true;
+                }
+            }
+        }
+    }
+
+    if (!quote) {
+        out.append(value, start, end);
+        return;
+    }
+
+    out.append(quoteChar);
+
+    while (pos < end) {
+        final char c = value.charAt(pos);
+        if (c == quoteChar) {
+            out.append(value, start, pos + 1);
+            start = pos;
+        }
+        pos++;
+    }
+
+    out.append(value, start, pos);
+    out.append(quoteChar);
+}

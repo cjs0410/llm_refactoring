@@ -1,0 +1,26 @@
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-06 01:13:29  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p JacksonCore
+ -v 8f
+ -n 1
+ -b 10
+ -c /defects4j/framework/projects/JacksonCore/modified_classes/8.src
+ -s 1008
+Created test suite archive: JacksonCore-8f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/JacksonCore-8f-reg-test/JacksonCore/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-06 01:13:46  ######
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 11:52:19  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p JacksonCore
+ -v 8f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/JacksonCore/modified_classes/8.src
+ -s 1008
+Created test suite archive: JacksonCore-8f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/JacksonCore-8f-reg-test/JacksonCore/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 11:54:01  ######

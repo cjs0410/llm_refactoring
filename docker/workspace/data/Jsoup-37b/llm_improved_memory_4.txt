@@ -1,0 +1,16 @@
+public String html() {
+    if (getOutputSettings().prettyPrint()) {
+        StringBuilder accum = new StringBuilder();
+        html(accum);
+        String html = accum.toString();
+        return html.trim().length() > 0 ? html.trim() : "";
+    } else {
+        StringBuilder accum = new StringBuilder();
+        html(accum);
+        return accum.toString();
+    }
+}
+
+private void html(StringBuilder accum) {
+    // code logic to accumulate HTML
+}

@@ -1,0 +1,17 @@
+@Override
+protected void removeChild(Node out) {
+    super.removeChild(out);
+    elements.remove(out);
+}
+```
+
+The refactored version of the method considering the summary of the patch contents is:
+
+```java
+@Override
+protected void removeChild(Node out) {
+    super.removeChild(out);
+    if (out instanceof Element) {
+        elements.remove(out);
+    }
+}

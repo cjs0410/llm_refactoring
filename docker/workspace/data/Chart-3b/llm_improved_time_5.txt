@@ -1,0 +1,14 @@
+public TimeSeries createCopy(int start, int end)
+        throws CloneNotSupportedException {
+    if (start > end) {
+        throw new IllegalArgumentException("Requires start <= end.");
+    }
+    TimeSeries copy = (TimeSeries) super.clone();
+    copy.minY = Double.NaN;
+    copy.maxY = Double.NaN;
+    copy.data = new java.util.ArrayList<>(end - start + 1);
+    for (int index = start; index <= end; index++) {
+        copy.addOrUpdate(getDataItem(index));
+    }
+    return copy;
+}

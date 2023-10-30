@@ -1,0 +1,11 @@
+static boolean preserveWhitespace(Node node) {
+    // looks upwards in the element hierarchy, to prevent recursion & needless stack searches
+    while (node instanceof Element) {
+        Element el = (Element) node;
+        if (el.tag.preserveWhitespace()) {
+            return true;
+        }
+        node = el.parent();
+    }
+    return false;
+}

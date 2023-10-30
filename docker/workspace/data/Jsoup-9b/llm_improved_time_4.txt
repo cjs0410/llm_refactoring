@@ -1,0 +1,3 @@
+static String escape(String string, Document.OutputSettings out) {
+    return escape(string, out.encoder(), out.escapeMode());
+}

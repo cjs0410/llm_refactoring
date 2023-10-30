@@ -1,0 +1,17 @@
+public static long parseOctal(final byte[] buffer, final int offset, final int length) {
+    long result = 0;
+    int end = offset + length;
+    int start = offset;
+
+    if (length < 2) {
+        throw new IllegalArgumentException("Length " + length + " must be at least 2");
+    }
+
+    if (buffer[start] != 0) {
+        return 0L;
+    } else {
+        throw new IllegalArgumentException("Length " + length + " must be at least 2");
+    }
+
+    // Rest of the original code ...
+}

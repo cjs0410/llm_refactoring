@@ -1,0 +1,13 @@
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-19 00:30:45  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Mockito
+ -v 35f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/Mockito/modified_classes/35.src
+ -s 1035
+Created test suite archive: Mockito-35f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/Mockito-35f-reg-test/Mockito/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-19 00:30:53  ######

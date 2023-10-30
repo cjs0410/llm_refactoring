@@ -1,0 +1,42 @@
+void writePaxHeaders(String entryName,
+                     Map<String, String> headers) throws IOException {
+    String name = "./PaxHeaders.X/" + stripTo7Bits(entryName);
+    
+    int length = name.length();
+    while (length > 0 && name.charAt(length - 1) == '/') {
+        // TarEntry's constructor would think this is a directory
+        // and not allow any data to be written
+        length--;
+    }
+    if (length >= TarConstants.NAMELEN) {
+        length = TarConstants.NAMELEN - 1;
+    }
+    name = name.substring(0, length);
+
+    TarArchiveEntry pex = new TarArchiveEntry(name, TarConstants.LF_PAX_EXTENDED_HEADER_LC);
+    
+    StringBuilder w = new StringBuilder();
+    for (Map.Entry<String, String> h : headers.entrySet()) {
+        String key = h.getKey();
+        String value = h.getValue();
+        int len = key.length() + value.length() + 3 /* blank, equals, and newline */;
+        String line = len + " " + key + "=" + value + "\n";
+        byte[] lineBytes = line.getBytes(CharsetNames.UTF_8);
+        while (len != lineBytes.length) {
+            // Adjust for cases where length < 10 or > 100
+            // or where UTF-8 encoding isn't a single octet
+            // per character.
+            // Must be in loop as size may go from 99 to 100 in
+            // first pass so we'd need a second.
+            len = lineBytes.length;
+            line = len + " " + key + "=" + value + "\n";
+            lineBytes = line.getBytes(CharsetNames.UTF_8);
+        }
+        w.append(line);
+    }
+    byte[] data = w.toString().getBytes(CharsetNames.UTF_8);
+    pex.setSize(data.length);
+    putArchiveEntry(pex);
+    write(data);
+    closeArchiveEntry();
+}

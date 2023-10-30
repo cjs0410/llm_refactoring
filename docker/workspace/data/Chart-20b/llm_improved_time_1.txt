@@ -1,0 +1,18 @@
+/**
+ * Creates a new {@code ValueMarker} with the specified value, paint,
+ * stroke, outline paint, outline stroke, and alpha.
+ *
+ * @param value        the value.
+ * @param paint        the paint ({@code null} not permitted).
+ * @param stroke       the stroke ({@code null} not permitted).
+ * @param outlinePaint the outline paint ({@code null} not permitted).
+ * @param outlineStroke the outline stroke ({@code null} not permitted).
+ * @param alpha        the alpha transparency.
+ *
+ * @since 1.0.23
+ */
+public ValueMarker(double value, Paint paint, Stroke stroke,
+                   Paint outlinePaint, Stroke outlineStroke, float alpha) {
+    super(paint, stroke, outlinePaint, outlineStroke, alpha);
+    this.value = value;
+}

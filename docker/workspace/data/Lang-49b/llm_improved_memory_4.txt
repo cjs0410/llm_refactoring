@@ -1,0 +1,16 @@
+    /**
+     * Reduces the fraction by finding the greatest common divisor (gcd) of the numerator and denominator.
+     * If the numerator is equal to zero, it returns either this fraction if it is zero, or a new zero fraction.
+     *
+     * @return a new reduced fraction instance, or this if no simplification possible
+     */
+    public Fraction reduce() {
+        if (numerator == 0) {
+            return (this == ZERO) ? this : ZERO;
+        }
+        int gcd = greatestCommonDivisor(Math.abs(numerator), denominator);
+        if (gcd == 1) {
+            return this;
+        }
+        return new Fraction(numerator / gcd, denominator / gcd);
+    }

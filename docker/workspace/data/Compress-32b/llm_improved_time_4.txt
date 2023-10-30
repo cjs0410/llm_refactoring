@@ -1,0 +1,43 @@
+private void applyPaxHeadersToCurrentEntry(Map<String, String> headers) {
+    for (Entry<String, String> ent : headers.entrySet()) {
+        String key = ent.getKey();
+        String val = ent.getValue();
+
+        switch (key) {
+            case "path":
+                currEntry.setName(val);
+                break;
+            case "linkpath":
+                currEntry.setLinkName(val);
+                break;
+            case "gid":
+                currEntry.setGroupId(Long.parseLong(val));
+                break;
+            case "gname":
+                currEntry.setGroupName(val);
+                break;
+            case "uid":
+                currEntry.setUserId(Long.parseLong(val));
+                break;
+            case "uname":
+                currEntry.setUserName(val);
+                break;
+            case "size":
+                currEntry.setSize(Long.parseLong(val));
+                break;
+            case "mtime":
+                currEntry.setModTime((long) (Double.parseDouble(val) * 1000));
+                break;
+            case "SCHILY.devminor":
+                currEntry.setDevMinor(Integer.parseInt(val));
+                break;
+            case "SCHILY.devmajor":
+                currEntry.setDevMajor(Integer.parseInt(val));
+                break;
+            // add more cases as needed
+            default:
+                // handle default case
+                break;
+        }
+    }
+}

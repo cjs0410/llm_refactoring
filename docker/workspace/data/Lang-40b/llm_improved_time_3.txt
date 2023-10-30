@@ -1,0 +1,9 @@
+public static boolean containsIgnoreCase(String str, String searchStr) {
+    if (str == null || searchStr == null) {
+        return false;
+    }
+    
+    int index = str.toUpperCase().indexOf(searchStr.toUpperCase());
+    
+    return index != -1;
+}

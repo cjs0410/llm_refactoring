@@ -1,0 +1,21 @@
+public static long skip(InputStream input, long numToSkip) throws IOException {
+    long remainingToSkip = numToSkip;
+
+    while (remainingToSkip > 0) {
+        long skipped = input.skip(remainingToSkip);
+        if (skipped == 0) {
+            break;
+        }
+        remainingToSkip -= skipped;
+    }
+
+    if (remainingToSkip > 0) {
+        byte[] skipBuf = new byte[SKIP_BUF_SIZE];
+        int bytesRead;
+        while (remainingToSkip > 0 && (bytesRead = readFully(input, skipBuf, 0,
+                (int) Math.min(remainingToSkip, SKIP_BUF_SIZE))) > 0) {
+            remainingToSkip -= bytesRead;
+        }
+    }
+    return numToSkip - remainingToSkip;
+}

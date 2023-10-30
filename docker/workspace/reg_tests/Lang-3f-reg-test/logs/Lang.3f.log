@@ -1,0 +1,26 @@
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-07 19:22:15  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Lang
+ -v 3f
+ -n 1
+ -b 10
+ -c /defects4j/framework/projects/Lang/modified_classes/3.src
+ -s 1003
+Created test suite archive: Lang-3f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/Lang-3f-reg-test/Lang/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-07 19:22:29  ######
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 19:06:05  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p Lang
+ -v 3f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/Lang/modified_classes/3.src
+ -s 1003
+Created test suite archive: Lang-3f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/Lang-3f-reg-test/Lang/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 19:07:46  ######

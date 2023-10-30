@@ -1,0 +1,38 @@
+@Override
+public boolean equals(Object obj) {
+    if (this == obj) {
+        return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+        return false;
+    }
+    ZipArchiveEntry other = (ZipArchiveEntry) obj;
+    String myName = getName();
+    String otherName = other.getName();
+    if (!isEqualNullSafe(myName, otherName)) {
+        return false;
+    }
+    String myComment = getComment();
+    String otherComment = other.getComment();
+    if (!isEqualNullSafe(myComment, otherComment)) {
+        return false;
+    }
+    return isEqualNullSafe(getTime(), other.getTime())
+            && isEqualNullSafe(getInternalAttributes(), other.getInternalAttributes())
+            && isEqualNullSafe(getPlatform(), other.getPlatform())
+            && isEqualNullSafe(getExternalAttributes(), other.getExternalAttributes())
+            && isEqualNullSafe(getMethod(), other.getMethod())
+            && isEqualNullSafe(getSize(), other.getSize())
+            && isEqualNullSafe(getCrc(), other.getCrc())
+            && isEqualNullSafe(getCompressedSize(), other.getCompressedSize())
+            && Arrays.equals(getCentralDirectoryExtra(), other.getCentralDirectoryExtra())
+            && Arrays.equals(getLocalFileDataExtra(), other.getLocalFileDataExtra())
+            && gpb.equals(other.gpb);
+}
+
+private boolean isEqualNullSafe(Object obj1, Object obj2) {
+    if (obj1 == null) {
+        return obj2 == null;
+    }
+    return obj1.equals(obj2);
+}

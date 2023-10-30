@@ -1,0 +1,18 @@
+public EqualsBuilder append(Object lhs, Object rhs) {
+    if (isEquals == false || lhs == rhs) {
+        return this;
+    }
+    if (lhs == null || rhs == null) {
+        this.setEquals(false);
+        return this;
+    }
+    if (lhs.getClass().isArray() && lhs.getClass() != rhs.getClass()) {
+        this.setEquals(false);
+    } else if (lhs instanceof java.math.BigDecimal) {
+        isEquals = (((java.math.BigDecimal) lhs).compareTo(rhs) == 0);
+    } else {
+        // The simple case, not an array, just test the element
+        isEquals = lhs.equals(rhs);
+    }
+    return this;
+}

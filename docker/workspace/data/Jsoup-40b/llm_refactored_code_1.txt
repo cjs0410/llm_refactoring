@@ -1,0 +1,13 @@
+public DocumentType(String name, String publicId, String systemId, String baseUri) {
+    super(baseUri);
+
+    if (!name.isEmpty()) {
+        attr("name", name);
+    }
+    if (!publicId.isEmpty()) {
+        attr("publicId", publicId);
+    }
+    if (!systemId.isEmpty()) {
+        attr("systemId", systemId);
+    }
+}

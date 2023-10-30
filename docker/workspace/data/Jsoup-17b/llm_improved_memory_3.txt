@@ -1,0 +1,10 @@
+private static final char NULL_CHARACTER = '\u0000';
+
+abstract boolean process(Token t, TreeBuilder tb);
+
+// ...
+
+@Override
+boolean process(Token t, TreeBuilder tb) {
+    // Method implementation remains unchanged
+}

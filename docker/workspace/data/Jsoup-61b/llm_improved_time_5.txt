@@ -1,0 +1,27 @@
+public boolean hasClass(String className) {
+    final String classAttr = attributes.getIgnoreCase("class");
+    final int len = classAttr != null ? classAttr.length() : 0;
+    final int wantLen = className.length();
+
+    if (len == 0 || wantLen == 0 || wantLen > len) {
+        return false;
+    }
+
+    if (len == wantLen) {
+        return classAttr.regionMatches(true, 0, className, 0, wantLen);
+    }
+
+    int start = 0, end;
+    while ((end = classAttr.indexOf(' ', start)) != -1) {
+        if (isClassNameMatch(classAttr, start, end, wantLen, className)) {
+            return true;
+        }
+        start = end + 1;
+    }
+    return isClassNameMatch(classAttr, start, len, wantLen, className);
+}
+
+private static boolean isClassNameMatch(String classAttr, int start, int end, int wantLen, String className) {
+    int subLen = end - start;
+    return subLen == wantLen && classAttr.regionMatches(true, start, className, 0, wantLen);
+}

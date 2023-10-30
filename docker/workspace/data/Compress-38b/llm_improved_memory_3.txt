@@ -1,0 +1,8 @@
+    @Override
+    public boolean isDirectory() {
+        if (file != null) {
+            return file.isDirectory();
+        }
+      
+        return isDirectoryEntry() || (getName().endsWith("/") && !isPaxHeader() && !isGlobalPaxHeader());
+    }

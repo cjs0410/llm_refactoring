@@ -1,0 +1,13 @@
+######  Start test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 15:59:51  ######
+Mode: regression
+Parameters:
+ -g evosuite
+ -p JacksonXml
+ -v 5f
+ -n 1
+ -b 180
+ -c /defects4j/framework/projects/JacksonXml/modified_classes/5.src
+ -s 1005
+Created test suite archive: JacksonXml-5f-evosuite.1.tar.bz2
+Moved test suite archive to output directory: /tmp/JacksonXml-5f-reg-test/JacksonXml/evosuite/1
+######  End test generation  /defects4j/framework/bin/gen_tests.pl: 2023-09-18 16:01:30  ######

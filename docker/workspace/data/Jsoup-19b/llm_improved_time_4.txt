@@ -1,0 +1,13 @@
+private boolean testValidProtocol(Element el, Attribute attr, Set<Protocol> protocols) {
+    String value = el.absUrl(attr.getKey());
+    attr.setValue(value.length() == 0 ? attr.getValue() : value);
+    
+    String lowerCaseValue = value.toLowerCase();
+    for (Protocol protocol : protocols) {
+        String prot = protocol.toString() + ":";
+        if (lowerCaseValue.startsWith(prot)) {
+            return true;
+        }
+    }
+    return false;
+}

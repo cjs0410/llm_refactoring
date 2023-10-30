@@ -1,0 +1,6 @@
+public static final CSVFormat EXCEL = CSVFormat
+    .newFormat(',')
+    .withQuote(null)
+    .withEscape(null)
+    .withIgnoreEmptyLines(false)
+    .withAllowMissingColumnNames(true);

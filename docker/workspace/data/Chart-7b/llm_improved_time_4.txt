@@ -1,0 +1,42 @@
+private void updateBounds(TimePeriod period, int index) {
+    long start = period.getStart().getTime();
+    long end = period.getEnd().getTime();
+    long middle = start + ((end - start) / 2);
+
+    // Update minStartIndex
+    if (this.minStartIndex < 0 || start < getDataItem(this.minStartIndex).getPeriod().getStart().getTime()) {
+        this.minStartIndex = index;
+    }
+
+    // Update maxStartIndex
+    if (this.maxStartIndex < 0 || start > getDataItem(this.maxStartIndex).getPeriod().getStart().getTime()) {
+        this.maxStartIndex = index;
+    }
+
+    // Update minMiddleIndex
+    if (this.minMiddleIndex < 0 || middle < calculateMiddle(getDataItem(this.minMiddleIndex))) {
+        this.minMiddleIndex = index;
+    }
+
+    // Update maxMiddleIndex
+    if (this.maxMiddleIndex < 0 || middle > calculateMiddle(getDataItem(this.maxMiddleIndex))) {
+        this.maxMiddleIndex = index;
+    }
+
+    // Update minEndIndex
+    if (this.minEndIndex < 0 || end < getDataItem(this.minEndIndex).getPeriod().getEnd().getTime()) {
+        this.minEndIndex = index;
+    }
+  
+    // Update maxEndIndex
+    if (this.maxEndIndex < 0 || end > getDataItem(this.maxEndIndex).getPeriod().getEnd().getTime()) {
+        this.maxEndIndex = index;
+    }
+}
+
+private long calculateMiddle(TimePeriodValue dataItem) {
+    TimePeriod period = dataItem.getPeriod();
+    long start = period.getStart().getTime();
+    long end = period.getEnd().getTime();
+    return start + ((end - start) / 2);
+}

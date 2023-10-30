@@ -1,0 +1,12 @@
+public String html() {
+    StringBuilder accum = new StringBuilder();
+
+    html(accum);
+
+    String result = accum.toString();
+    if (getOutputSettings().prettyPrint()) {
+        result = result.trim();
+    }
+
+    return result;
+}

@@ -1,0 +1,41 @@
+public static int formatLongOctalOrBinaryBytes(
+        final long value, final byte[] buf, final int offset, final int length) {
+
+    // Check whether we are dealing with UID/GID or SIZE field
+    final long maxAsOctalChar = length == TarConstants.UIDLEN ? TarConstants.MAXID : TarConstants.MAXSIZE;
+
+    final boolean negative = value < 0;
+    if (!negative && value <= maxAsOctalChar) { // OK to store as octal chars
+        return formatLongOctalBytes(value, buf, offset, length);
+    }
+
+    if (length < 9) {
+        formatLongBinary(value, buf, offset, length, negative);
+    } else {
+        formatBigIntegerBinary(value, buf, offset, length, negative);
+    }
+
+    buf[offset] = (byte) (negative ? 0xff : 0x80);
+    return offset + length;
+}
+
+private static void formatLongBinary(long value, byte[] buf, int offset, int length, boolean negative) {
+    for (int i = length - 1; i >= 1; i--) {
+        buf[offset + i] = (byte) value;
+        value >>= 8;
+    }
+}
+
+private static void formatBigIntegerBinary(long value, byte[] buf, int offset, int length, boolean negative) {
+    BigInteger bigInteger = BigInteger.valueOf(value);
+    BigInteger mask = BigInteger.ONE.shiftLeft(length * 8).subtract(BigInteger.ONE);
+    if (negative) {
+        bigInteger = bigInteger.negate().and(mask);
+    } else {
+        bigInteger = bigInteger.and(mask);
+    }
+    byte[] bytes = bigInteger.toByteArray();
+    for (int i = 0; i < length; i++) {
+        buf[offset + i] = i < bytes.length ? bytes[bytes.length - 1 - i] : 0;
+    }
+}

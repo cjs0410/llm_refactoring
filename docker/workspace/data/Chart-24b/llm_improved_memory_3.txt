@@ -1,0 +1,6 @@
+public Paint getPaint(double value) {
+    value = Math.max(value, lowerBound);
+    value = Math.min(value, upperBound);
+    int grayIntensity = (int) ((value - lowerBound) / (upperBound - lowerBound) * 255.0);
+    return new Color(grayIntensity, grayIntensity, grayIntensity);
+}

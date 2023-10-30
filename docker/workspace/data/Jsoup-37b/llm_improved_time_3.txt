@@ -1,0 +1,15 @@
+public String html() {
+    StringBuilder accum = new StringBuilder();
+    html(accum, getOutputSettings().prettyPrint());
+    return accum.toString();
+}
+
+private void html(StringBuilder accum, boolean prettyPrint) {
+    if (prettyPrint) {
+        String html = accum.toString().trim();
+        accum.setLength(0);
+        accum.append(html);
+    }
+    // Rest of the method code here
+    // ...
+}

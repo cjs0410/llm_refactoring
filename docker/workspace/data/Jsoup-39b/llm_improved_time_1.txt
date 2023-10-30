@@ -1,0 +1,43 @@
+static Document parseByteData(ByteBuffer byteData, String charsetName, String baseUri, Parser parser) {
+    String docData;
+
+    if (charsetName == null) {
+        docData = Charset.forName(defaultCharset).decode(byteData).toString();
+        Document doc = parser.parseInput(docData, baseUri);
+
+        Element meta = doc.select("meta[http-equiv=content-type], meta[charset]").first();
+        if (meta != null) {
+            String foundCharset;
+            if (meta.hasAttr("http-equiv")) {
+                foundCharset = getCharsetFromContentType(meta.attr("content"));
+                if (foundCharset == null && meta.hasAttr("charset")) {
+                    try {
+                        if (Charset.isSupported(meta.attr("charset"))) {
+                            foundCharset = meta.attr("charset");
+                        }
+                    } catch (IllegalCharsetNameException e) {
+                        foundCharset = null;
+                    }
+                }
+            } else {
+                foundCharset = meta.attr("charset");
+            }
+
+            if (foundCharset != null && foundCharset.length() != 0 && !foundCharset.equals(defaultCharset)) {
+                foundCharset = foundCharset.trim().replaceAll("[\"']", "");
+                charsetName = foundCharset;
+                byteData.rewind();
+                docData = Charset.forName(foundCharset).decode(byteData).toString();
+                doc = parser.parseInput(docData, baseUri);
+            }
+        }
+
+        doc.outputSettings().charset(charsetName);
+        return doc;
+    } else {
+        docData = Charset.forName(charsetName).decode(byteData).toString();
+        Document doc = parser.parseInput(docData, baseUri);
+        doc.outputSettings().charset(charsetName);
+        return doc;
+    }
+}

@@ -1,0 +1,20 @@
+public TimeSeries createCopy(int start, int end) throws CloneNotSupportedException {
+    if (start < 0) {
+        throw new IllegalArgumentException("Requires start >= 0.");
+    }
+    if (end < start) {
+        throw new IllegalArgumentException("Requires start <= end.");
+    }
+    if (this.data.isEmpty()) {
+        return new TimeSeries(this.key);
+    }
+    TimeSeries copy = (TimeSeries) super.clone();
+    copy.clear();
+
+    for (int index = start; index <= end; index++) {
+        TimeSeriesDataItem item = (TimeSeriesDataItem) this.data.get(index);
+        copy.add((TimeSeriesDataItem) item.clone());
+    }
+
+    return copy;
+}

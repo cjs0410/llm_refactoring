@@ -1,0 +1,26 @@
+@Override
+public int read(byte[] buf, int offset, int numToRead) throws IOException {
+    if (hasHitEOF || entryOffset >= entrySize) {
+        return -1;
+    }
+
+    if (currEntry == null) {
+        throw new IllegalStateException("No current tar entry");
+    }
+
+    numToRead = Math.min(numToRead, available());
+
+    int bytesRead = is.read(buf, offset, numToRead);
+    if (bytesRead == -1 && numToRead > 0) {
+        throw new IOException("Truncated TAR archive");
+    }
+
+    if (bytesRead != -1) {
+        count(bytesRead);
+        entryOffset += bytesRead;
+    } else {
+        hasHitEOF = true;
+    }
+
+    return bytesRead;
+}

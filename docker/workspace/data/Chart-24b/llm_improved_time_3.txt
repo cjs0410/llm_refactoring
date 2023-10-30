@@ -1,0 +1,9 @@
+public Paint getPaint(double value) {
+    double v = clamp(value, lowerBound, upperBound);
+    int g = (int) ((v - lowerBound) / (upperBound - lowerBound) * 255.0);
+    return new Color(g, g, g);
+}
+
+private static double clamp(double value, double min, double max) {
+    return Math.max(min, Math.min(value, max));
+}

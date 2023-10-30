@@ -1,0 +1,7 @@
+private static ZipLong unixTimeToZipLong(long l) {
+    final long TWO_TO_32 = 0x100000000L;
+    if (l >= TWO_TO_32) {
+        throw new IllegalArgumentException("Time too big for 32 bits!");
+    }
+    return new ZipLong(l);
+}
