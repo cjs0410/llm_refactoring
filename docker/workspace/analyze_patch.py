@@ -276,10 +276,9 @@ if __name__ == "__main__":
 
     if sys.argv[1] == 'time':
         sample_cnt = 5
-        iter_num = 2
+        iter_num = 5
 
         fieldnames = ['pid', 'vid', 'sid', 'mode', 'fixed_dev_time', 'llm_dev_time', 'fixed_reg_time', 'llm_reg_time']
-        modes = ['normal', 'time', 'mem']
 
         if not os.path.exists("./results/time.csv"):
             f = open("./results/time.csv", "w", errors='ignore')
@@ -344,10 +343,9 @@ if __name__ == "__main__":
 
     if sys.argv[1] == 'mem':
         sample_cnt = 5
-        iter_num = 2
+        iter_num = 5
 
         fieldnames = ['pid', 'vid', 'sid', 'mode', 'fixed_dev_mem', 'llm_dev_mem', 'fixed_reg_mem', 'llm_reg_mem']
-        modes = ['normal', 'time', 'mem']
 
         if not os.path.exists("./results/mem.csv"):
             f = open("./results/mem.csv", "w", errors='ignore')
@@ -414,11 +412,64 @@ if __name__ == "__main__":
         sample_cnt = 5
         iter_num = 2
 
-        fieldnames = ['pid', 'vid', 'sid', 'mode', 'fixed_len', 'llm_len']
-        modes = ['normal', 'time', 'mem']
+        fieldnames = ['pid', 'vid', 'sid', 'mode', 'compile', 'dev_test', 'reg_test', 'dev_len', 'llm_len']
 
         if not os.path.exists("./results/len.csv"):
             f = open("./results/len.csv", "w", errors='ignore')
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
             f.close()
+
+        f = open('./results/base.csv','r')
+        base = csv.reader(f)
+        
+        for line in base:
+            pid, vid, sid, mode, compile, dev_test, reg_test = line
+            mod_dir = f"/tmp/{pid}-{vid}m"
+            fixed_dir = f"/tmp/{pid}-{vid}f"
+            exist = False
+    
+            t = open('./results/len.csv','r')
+            mem_data = csv.reader(t)
+            
+            for data in mem_data:
+                if str(pid) == data[0] and str(vid) == data[1] and str(sid) == data[2] and str(mode) == data[3]:
+                    exist = True
+            t.close()
+
+            if exist:
+                continue
+            
+            d = open(f"./data/{pid}-{vid}b/dev_fixed_code.txt", 'r', errors='ignore')
+            dev_fixed = d.read()
+
+            if mode == 'normal':
+                l = open(f"./data/{pid}-{vid}b/llm_refactored_code_{sid}.txt", 'r', errors='ignore')
+            
+            if mode == 'time':
+                l = open(f"./data/{pid}-{vid}b/llm_improved_time_{sid}.txt", 'r', errors='ignore')
+
+            if mode ==  'mem':
+                l = open(f"./data/{pid}-{vid}b/llm_improved_memory_{sid}.txt", 'r', errors='ignore')
+
+            llm_ref = l.read()
+
+            row = {'pid': pid, 
+                'vid': vid, 
+                'sid': sid, 
+                'mode': mode, 
+                'compile': compile,
+                'dev_test': dev_test,
+                'reg_test': reg_test,
+                'dev_len': len(dev_fixed), 
+                'llm_len': len(llm_ref)
+                }
+            
+            with open("./results/len.csv", "a", errors='ignore') as r:
+                writer = csv.DictWriter(r, fieldnames=fieldnames)
+                writer.writerow(row)
+
+            d.close()
+            l.close()
+
+        f.close()
