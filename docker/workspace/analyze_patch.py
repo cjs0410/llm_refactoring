@@ -43,6 +43,71 @@ def apply_patch(pid, vid, start, end, sid, mode):
         f.write("".join(src_lines))
     return
 
+def measure_dev_time(pid, vid, iter_num, dev_test, reg_test):
+    gzoltar_dir = f"/tmp/{pid}-{vid}g"
+    fixed_dir = f"/tmp/{pid}-{vid}f"
+    mod_dir = f"/tmp/{pid}-{vid}m"
+    
+    fixed_dev_time = 0
+    llm_dev_time = 0
+
+    if dev_test == 1:
+        if not os.path.exists(f"{gzoltar_dir}/sfl"):
+            os.system(f"sh run_gzoltar.sh {pid} {vid}")
+        os.system(f"cd {gzoltar_dir}/sfl/txt")
+        m = open(f'{gzoltar_dir}/sfl/txt/matrix.txt', 'r')
+        lines = m.readlines()
+        
+        t = open(f'{gzoltar_dir}/sfl/txt/tests.csv', 'r')
+        tests = csv.reader(t)
+        tests = [test for test in tests][1:]
+        s = open(f'{gzoltar_dir}/sfl/txt/spectra.csv', 'r')
+        spectra = csv.reader(s)
+        spectra = [stmt for stmt in spectra][1:]
+
+        cov_tests = set()
+        
+        for stmt_index, stmt in enumerate(spectra):
+            if stmt[0].split('(')[0].split('#')[-1] == method_name:
+                for test_index, line in enumerate(lines):
+                    if line.split(' ')[:-1][stmt_index] == '1':
+                        cov_tests.add(tests[test_index][0].replace('#', '::'))
+
+        m.close()
+        t.close()
+        s.close()
+
+        for i in range(iter_num):
+            os.system(f"cd {fixed_dir} && rm -rf TEST-*")
+            os.system(f"cd {mod_dir} && rm -rf TEST-*")
+
+            os.system(f"cd {fixed_dir} && defects4j test")
+            os.system(f"cd {mod_dir} && defects4j test")
+
+            for cov_test in cov_tests:
+                if not os.path.exists(f"{fixed_dir}/TEST-{cov_test.split('::')[0]}.txt"):
+                    return None, None
+                with open(f"{fixed_dir}/TEST-{cov_test.split('::')[0]}.txt", 'r') as f_c:
+                    for line in f_c.readlines():
+                        tc = re.match("Testcase: (.*) took (.*) sec", line)
+                        if tc is None:
+                            continue
+                        if tc.group(1) == cov_test.split('::')[-1]:
+                            fixed_dev_time += float(tc.group(2))
+
+                with open(f"{mod_dir}/TEST-{cov_test.split('::')[0]}.txt", 'r') as l_c:
+                    for line in l_c.readlines():
+                        tc = re.match("Testcase: (.*) took (.*) sec", line)
+                        if tc is None:
+                            continue
+                        if tc.group(1) == cov_test.split('::')[-1]:
+                            llm_dev_time += float(tc.group(2))
+
+    mean_fdt = fixed_dev_time / iter_num
+    mean_ldt = llm_dev_time / iter_num
+    
+    return mean_fdt, mean_ldt
+
 def measure_time(pid, vid, iter_num, dev_test, reg_test):
     fixed_dir = f"/tmp/{pid}-{vid}f"
     mod_dir = f"/tmp/{pid}-{vid}m"
@@ -86,7 +151,7 @@ def measure_time(pid, vid, iter_num, dev_test, reg_test):
     return mean_fdt, mean_ldt, mean_frt, mean_lrt
 
 
-def measure_mem(pid, vid, sid, mode, iter_num, dev_test, reg_test):
+def measure_mem(pid, vid, sid, mode, iter_num, dev_test, reg_test, method_name):
     fixed_dir = f"/tmp/{pid}-{vid}f"
     mod_dir = f"/tmp/{pid}-{vid}m"
     
@@ -102,15 +167,21 @@ def measure_mem(pid, vid, sid, mode, iter_num, dev_test, reg_test):
             if os.path.exists(f'''{mod_dir}/llm_dev_{mode}_{sid}.recording.jfr'''):
                 os.system(f"rm -rf {mod_dir}/llm_dev_{mode}_{sid}.recording.jfr")
 
+            if not os.path.exists(f'''./data/{pid}-{vid}b/mem_profile/llm_dev_{mode}_{sid}'''):
+                os.system(f'''mkdir ./data/{pid}-{vid}b/mem_profile/llm_dev_{mode}_{sid}''')
+
+            os.system(f"cd {fixed_dir} && defects4j compile")
+            os.system(f"cd {mod_dir} && defects4j compile")
+
             # generate jrf file
             os.system(f'''cd {fixed_dir} && JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF8 -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:StartFlightRecording=dumponexit=true,settings=profile,filename=fixed_dev.recording.jfr" defects4j test''')
             os.system(f'''cd {mod_dir} && JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF8 -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:StartFlightRecording=dumponexit=true,settings=profile,filename=llm_dev_{mode}_{sid}.recording.jfr" defects4j test''')
+            
+            # copy jrf file
+            os.system(f'''cp {fixed_dir}/fixed_dev.recording.jfr ./data/{pid}-{vid}b/mem_profile/llm_dev_{mode}_{sid}/fixed_{i+1}.recording.jfr''')
+            os.system(f'''cp {mod_dir}/llm_dev_{mode}_{sid}.recording.jfr ./data/{pid}-{vid}b/mem_profile/llm_dev_{mode}_{sid}/llm_{i+1}.recording.jfr''')
 
-            if not os.path.exists(f'''./data/{pid}-{vid}b/mem_profile/fixed_dev.recording.jfr'''):
-                os.system(f'''cp {fixed_dir}/fixed_dev.recording.jfr ./data/{pid}-{vid}b/mem_profile/fixed_dev.recording.jfr''')
-            if not os.path.exists(f'''./data/{pid}-{vid}b/mem_profile/llm_dev_{mode}_{sid}.recording.jfr'''):
-                os.system(f'''cp {mod_dir}/llm_dev_{mode}_{sid}.recording.jfr ./data/{pid}-{vid}b/mem_profile/llm_dev_{mode}_{sid}.recording.jfr''')
-
+            # event -> json
             os.system(f'''cd {fixed_dir} && jfr print --json --stack-depth 64 --events jdk.ObjectAllocationInNewTLAB fixed_dev.recording.jfr > /tmp/fixed_dev_mem.json''')
             os.system(f'''cd {mod_dir} && jfr print --json --stack-depth 64 --events jdk.ObjectAllocationInNewTLAB llm_dev_{mode}_{sid}.recording.jfr > /tmp/llm_dev_mem.json''')
 
@@ -119,13 +190,21 @@ def measure_mem(pid, vid, sid, mode, iter_num, dev_test, reg_test):
             with open('/tmp/llm_dev_mem.json', 'r') as f:
                 llm_dev = json.load(f)
 
-            test_val = 0
             for event in fixed_dev['recording']['events']:
-                test_val += event['values']['allocationSize']
-                fixed_dev_mem += event['values']['allocationSize']
-            print(test_val)
+                if event['values']['stackTrace'] == None:
+                    continue
+                for frame in event['values']['stackTrace']['frames']:
+                    if frame['method']['name'] == method_name:
+                        fixed_dev_mem += event['values']['allocationSize']
+                        break
+
             for event in llm_dev['recording']['events']:
-                llm_dev_mem += event['values']['allocationSize']
+                if event['values']['stackTrace'] == None:
+                    continue
+                for frame in event['values']['stackTrace']['frames']:
+                    if frame['method']['name'] == method_name:
+                        llm_dev_mem += event['values']['allocationSize']
+                        break
 
     if reg_test == 1:
         for i in range(iter_num):
@@ -134,15 +213,21 @@ def measure_mem(pid, vid, sid, mode, iter_num, dev_test, reg_test):
             if os.path.exists(f'''{mod_dir}/llm_reg_{mode}_{sid}.recording.jfr'''):
                 os.system(f"rm -rf {mod_dir}/llm_reg_{mode}_{sid}.recording.jfr")
 
+            if not os.path.exists(f'''./data/{pid}-{vid}b/mem_profile/llm_reg_{mode}_{sid}'''):
+                os.system(f'''mkdir ./data/{pid}-{vid}b/mem_profile/llm_reg_{mode}_{sid}''')
+
+            os.system(f"cd {fixed_dir} && defects4j compile")
+            os.system(f"cd {mod_dir} && defects4j compile")
+
             # generate jrf file
             os.system(f'''cd {fixed_dir} && JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF8 -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:StartFlightRecording=dumponexit=true,settings=profile,filename=fixed_reg.recording.jfr" defects4j test -s /root/workspace/reg_tests/{pid}-{vid}f-reg-test/{pid}/evosuite/1/{pid}-{vid}f-evosuite.1.tar.bz2''')
             os.system(f'''cd {mod_dir} && JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF8 -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:StartFlightRecording=dumponexit=true,settings=profile,filename=llm_reg_{mode}_{sid}.recording.jfr" defects4j test -s /root/workspace/reg_tests/{pid}-{vid}f-reg-test/{pid}/evosuite/1/{pid}-{vid}f-evosuite.1.tar.bz2''')
             
-            if not os.path.exists(f'''./data/{pid}-{vid}b/mem_profile/fixed_reg.recording.jfr'''):
-                os.system(f'''cp {fixed_dir}/fixed_reg.recording.jfr ./data/{pid}-{vid}b/mem_profile/fixed_reg.recording.jfr''')
-            if not os.path.exists(f'''./data/{pid}-{vid}b/mem_profile/llm_reg_{mode}_{sid}.recording.jfr'''):
-                os.system(f'''cp {mod_dir}/llm_reg_{mode}_{sid}.recording.jfr ./data/{pid}-{vid}b/mem_profile/llm_reg_{mode}_{sid}.recording.jfr''')
+            # copy jrf file
+            os.system(f'''cp {fixed_dir}/fixed_reg.recording.jfr ./data/{pid}-{vid}b/mem_profile/llm_reg_{mode}_{sid}/fixed_{i+1}.recording.jfr''')
+            os.system(f'''cp {mod_dir}/llm_reg_{mode}_{sid}.recording.jfr ./data/{pid}-{vid}b/mem_profile/llm_reg_{mode}_{sid}/llm_{i+1}.recording.jfr''')
 
+            # event -> json
             os.system(f'''cd {fixed_dir} && jfr print --json --stack-depth 64 --events jdk.ObjectAllocationInNewTLAB fixed_reg.recording.jfr > /tmp/fixed_reg_mem.json''')
             os.system(f'''cd {mod_dir} && jfr print --json --stack-depth 64 --events jdk.ObjectAllocationInNewTLAB llm_reg_{mode}_{sid}.recording.jfr > /tmp/llm_reg_mem.json''')
 
@@ -152,9 +237,20 @@ def measure_mem(pid, vid, sid, mode, iter_num, dev_test, reg_test):
                 llm_reg = json.load(f)
 
             for event in fixed_reg['recording']['events']:
-                fixed_reg_mem += event['values']['allocationSize']
+                if event['values']['stackTrace'] == None:
+                    continue
+                for frame in event['values']['stackTrace']['frames']:
+                    if frame['method']['name'] == method_name:
+                        fixed_reg_mem += event['values']['allocationSize']
+                        break
+
             for event in llm_reg['recording']['events']:
-                llm_reg_mem += event['values']['allocationSize']
+                if event['values']['stackTrace'] == None:
+                    continue
+                for frame in event['values']['stackTrace']['frames']:
+                    if frame['method']['name'] == method_name:
+                        llm_reg_mem += event['values']['allocationSize']
+                        break
 
     mean_fdm = fixed_dev_mem / iter_num
     mean_ldm = llm_dev_mem / iter_num
@@ -162,6 +258,39 @@ def measure_mem(pid, vid, sid, mode, iter_num, dev_test, reg_test):
     mean_lrm = llm_reg_mem / iter_num
 
     return mean_fdm, mean_ldm, mean_frm, mean_lrm
+
+def extract_method_name(pid, vid, start, end):
+    files_to_analyze = set()
+    method_name = None
+    patch_path = f"/defects4j/framework/projects/{pid}/patches/{vid}.src.patch"
+    with open(patch_path, "r", errors='ignore') as f:
+        buggy_file = None
+        lines = f.readlines()
+        for l in lines:
+            if l.startswith("+++"):
+                b = re.match("(\+*\s*)(\S*)", l)
+                if b is None:
+                    continue
+                buggy_file = b.group(2).split("b/")[-1]
+                files_to_analyze.add(buggy_file)
+                continue
+    for file in files_to_analyze:
+        with open(os.path.join(os.path.join(f"./analyzed_files/{pid}-{vid}/", "range"), file.replace("/", "+")), "r") as f:
+            file_range = json.load(f)
+            filepath = file_range['filepath'].split('/')[3:]
+            filepath = '/'.join(filepath)
+            nodes = file_range['nodes']
+            print(start, end)
+            for node in nodes:
+                if node['begin_line'] <= start and node['end_line'] >= end:
+                    if node['type'] == "method" or node['type'] == "constructor":
+                        signature = node['signature']
+                        method_name = signature.split('(')[0].split('.')[-1]
+                    elif node['type'] == "field":
+                        method_name = '<clinit>'
+                    elif node['type'] == "constructor":
+                        method_name = '<init>'
+    return method_name
 
 if __name__ == "__main__":
     if sys.argv[1] == 'check':
@@ -323,7 +452,7 @@ if __name__ == "__main__":
                 end = int(method_lines[1])
 
             apply_patch(pid, vid, start, end, sid, mode)
-
+            method_name = extract_method_name(pid, vid, start, end)
             mean_fdt, mean_ldt, mean_frt, mean_lrt = measure_time(pid, vid, iter_num, int(dev_test), int(reg_test))
 
             row = {'pid': pid, 
@@ -362,6 +491,9 @@ if __name__ == "__main__":
             fixed_dir = f"/tmp/{pid}-{vid}f"
             exist = False
     
+            if pid == 'Csv' and vid == '12':
+                continue
+
             t = open('./results/mem.csv','r')
             mem_data = csv.reader(t)
             
@@ -378,8 +510,9 @@ if __name__ == "__main__":
             mean_frm = 0
             mean_lrm = 0
 
-            if not os.path.exists(fixed_dir):
-                os.system(f"defects4j checkout -p {pid} -v {vid}f -w {fixed_dir}")
+            # if not os.path.exists(fixed_dir):
+            os.system(f"rm -rf {fixed_dir}")
+            os.system(f"defects4j checkout -p {pid} -v {vid}f -w {fixed_dir}")
             os.system(f"rm -rf {mod_dir}")
             os.system(f"defects4j checkout -p {pid} -v {vid}f -w {mod_dir}")
 
@@ -389,8 +522,13 @@ if __name__ == "__main__":
                 end = int(method_lines[1])
 
             apply_patch(pid, vid, start, end, sid, mode)
+            method_name = extract_method_name(pid, vid, start, end)
+            if method_name == None:
+                continue
+            mean_fdm, mean_ldm, mean_frm, mean_lrm = measure_mem(pid, vid, sid, mode, iter_num, int(dev_test), int(reg_test), method_name)
 
-            mean_fdm, mean_ldm, mean_frm, mean_lrm = measure_mem(pid, vid, sid, mode, iter_num, int(dev_test), int(reg_test))
+            print(mean_fdm, mean_ldm)
+            print(mean_frm, mean_lrm)
 
             row = {'pid': pid, 
                 'vid': vid, 
@@ -442,7 +580,11 @@ if __name__ == "__main__":
             
             d = open(f"./data/{pid}-{vid}b/dev_fixed_code.txt", 'r', errors='ignore')
             dev_fixed = d.read()
-
+            
+            dev_fixed = dev_fixed.replace(" ", "")
+            dev_fixed = dev_fixed.replace("\t", "")
+            dev_fixed = dev_fixed.replace("\n", "")
+            
             if mode == 'normal':
                 l = open(f"./data/{pid}-{vid}b/llm_refactored_code_{sid}.txt", 'r', errors='ignore')
             
@@ -453,6 +595,9 @@ if __name__ == "__main__":
                 l = open(f"./data/{pid}-{vid}b/llm_improved_memory_{sid}.txt", 'r', errors='ignore')
 
             llm_ref = l.read()
+            llm_ref = llm_ref.replace(" ", "")
+            llm_ref = llm_ref.replace("\t", "")
+            llm_ref = llm_ref.replace("\n", "")
 
             row = {'pid': pid, 
                 'vid': vid, 
@@ -473,3 +618,77 @@ if __name__ == "__main__":
             l.close()
 
         f.close()
+
+
+    if sys.argv[1] == 'dev_time':
+        sample_cnt = 5
+        iter_num = 5
+
+        fieldnames = ['pid', 'vid', 'sid', 'mode', 'fixed_dev_time', 'llm_dev_time']
+
+        if not os.path.exists("./results/dev_time.csv"):
+            f = open("./results/dev_time.csv", "w", errors='ignore')
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            f.close()
+
+        f = open('./results/base.csv','r')
+        base = csv.reader(f)
+        
+        for line in base:
+            pid, vid, sid, mode, compile, dev_test, reg_test = line
+
+            mod_dir = f"/tmp/{pid}-{vid}m"
+            fixed_dir = f"/tmp/{pid}-{vid}f"
+            exist = False
+    
+            t = open('./results/dev_time.csv','r')
+            time_data = csv.reader(t)
+            
+            for data in time_data:
+                if str(pid) == data[0] and str(vid) == data[1] and str(sid) == data[2] and str(mode) == data[3]:
+                    exist = True
+            t.close()
+
+            if exist:
+                continue
+
+            mean_fdt = 0
+            mean_ldt = 0
+
+            os.system(f"rm -rf {fixed_dir}")
+            os.system(f"defects4j checkout -p {pid} -v {vid}f -w {fixed_dir}")
+            os.system(f"rm -rf {mod_dir}")
+            os.system(f"defects4j checkout -p {pid} -v {vid}f -w {mod_dir}")
+
+            os.system(f"cd {fixed_dir} && defects4j compile")
+            os.system(f"cd {mod_dir} && defects4j compile")
+
+            with open(f"./data/{pid}-{vid}b/method_line.txt", "r", errors='ignore') as m:
+                method_lines = m.readlines()
+                start = int(method_lines[0])
+                end = int(method_lines[1])
+
+            apply_patch(pid, vid, start, end, sid, mode)
+            method_name = extract_method_name(pid, vid, start, end)
+            if method_name == None:
+                continue
+            mean_fdt, mean_ldt = measure_dev_time(pid, vid, iter_num, int(dev_test), int(reg_test))
+            
+            # when cov test doen not executed with 'defects4j test'
+            if mean_fdt == None:
+                continue
+            print(mean_fdt, mean_ldt)
+
+            row = {'pid': pid, 
+                'vid': vid, 
+                'sid': sid, 
+                'mode': mode, 
+                'fixed_dev_time': mean_fdt, 
+                'llm_dev_time': mean_ldt, 
+                }
+            
+            with open("./results/dev_time.csv", "a", errors='ignore') as r:
+                writer = csv.DictWriter(r, fieldnames=fieldnames)
+                writer.writerow(row)
+        f.close

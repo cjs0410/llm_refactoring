@@ -195,9 +195,9 @@ class D4JEnv:
 
         if imp_type == 'time':
             improve_contents = " to improve time-efficiency"
-        if imp_type == 'memory':
+        elif imp_type == 'memory':
             improve_contents = " to improve memory-efficiency"
-        if imp_type == None:
+        elif imp_type == None:
             improve_contents = ""
         second_prompt_contents = "The code fixed by the previous developer patch is as follows:\n" + "```java\n" + fixed_ver_code + f"```\nRefactor the fixed code based on your summary of the patch contents and fixed code snippet{improve_contents}. Refactored code should be semantically same as fixed code. \n```java\ninsert refactored code here\n```"
         # print(second_prompt_contents)
